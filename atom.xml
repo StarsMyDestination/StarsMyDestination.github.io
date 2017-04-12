@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Stars My Destination</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2017-04-12T04:40:03.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Jianyun Xu</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>How to use python absolute import in package?</title>
+    <link href="http://yoursite.com/2017/04/12/python-absolute-import/"/>
+    <id>http://yoursite.com/2017/04/12/python-absolute-import/</id>
+    <published>2017-04-11T16:08:51.000Z</published>
+    <updated>2017-04-12T04:40:03.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;I had been confused for quite a long time about how python absolute import works.&lt;/p&gt;
+&lt;p&gt;Why should we use absolute import? The &lt;a href=&quot;
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
