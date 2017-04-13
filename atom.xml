@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-13T03:31:49.000Z</updated>
+  <updated>2017-04-13T03:33:17.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/04/12/python-absolute-import/"/>
     <id>http://yoursite.com/2017/04/12/python-absolute-import/</id>
     <published>2017-04-11T16:08:51.000Z</published>
-    <updated>2017-04-13T03:31:49.000Z</updated>
+    <updated>2017-04-13T03:33:17.000Z</updated>
     
     <content type="html"><![CDATA[<p>I had been confused for quite a long time about how python absolute import works.</p>
 <p>Why should we use absolute import? The <a href="https://www.python.org/dev/peps/pep-0328/#rationale-for-absolute-imports" target="_blank" rel="external">rationale</a> maybe:<br><blockquote><p>In Python 2.4 and earlier, if you’re reading a module located inside a package, it is not clear whether <code>import foo</code> refers to a top-level module or to another module inside the package. As Python’s library expands, more and more existing package internal modules suddenly shadow standard library modules by accident. It’s a particularly difficult problem inside packages because there’s no way to specify which module is meant. To resolve the ambiguity, it is proposed that foo will always be a module or package reachable from sys.path . This is called an absolute import.</p>
@@ -52,7 +52,7 @@ pkg/string.py
     </summary>
     
     
-      <category term="python absolute-import" scheme="http://yoursite.com/tags/python-absolute-import/"/>
+      <category term="python, absolute-import" scheme="http://yoursite.com/tags/python-absolute-import/"/>
     
   </entry>
   
