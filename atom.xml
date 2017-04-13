@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-04-13T08:09:22.000Z</updated>
+  <updated>2017-04-13T08:15:59.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,21 +19,21 @@
     <title>How to use python absolute import in package?</title>
     <link href="http://yoursite.com/2017/04/12/python-absolute-import/"/>
     <id>http://yoursite.com/2017/04/12/python-absolute-import/</id>
-    <published>2017-04-11T16:08:51.000Z</published>
-    <updated>2017-04-13T08:09:22.000Z</updated>
+    <published>2017-04-11T16:00:00.000Z</published>
+    <updated>2017-04-13T08:15:59.000Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;when you work on a complicated python project, there are many custom packages. In order to manage these packages and avoid shadowing star
+      &lt;p&gt;When you work on a complicated python project, there are many custom packages. In order to manage these packages and avoid shadowing star
     
     </summary>
     
       <category term="Python" scheme="http://yoursite.com/categories/Python/"/>
     
     
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
     
-      <category term="absolute-import" scheme="http://yoursite.com/tags/absolute-import/"/>
+      <category term="Absolute-Import" scheme="http://yoursite.com/tags/Absolute-Import/"/>
     
   </entry>
   
