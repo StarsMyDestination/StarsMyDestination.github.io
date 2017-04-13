@@ -28,6 +28,12 @@ pkg/string.py
 ]]></content>
       
         
+        <tags>
+            
+            <tag> python absolute-import </tag>
+            
+        </tags>
+        
     </entry>
     
   
