@@ -30,7 +30,9 @@ pkg/string.py
         
         <tags>
             
-            <tag> python; absolute-import </tag>
+            <tag> python </tag>
+            
+            <tag> absolute-import </tag>
             
         </tags>
         
