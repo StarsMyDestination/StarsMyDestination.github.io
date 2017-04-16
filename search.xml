@@ -3,8 +3,58 @@
   
     
     <entry>
+      <title><![CDATA[使用Tex写简历]]></title>
+      <url>/2017/04/16/Tex%20%E5%86%99%E7%AE%80%E5%8E%86/</url>
+      <content type="html"><![CDATA[<p>上一期写的简历被吐槽了，只好再寻思着改进一下。还是不愿意用word，那就更近一步，用Tex写吧。之后写论文估计也得用LaTex，先入坑再说吧～</p>
+<a id="more"></a>
+<h1 id="装软件😵"><a href="#装软件😵" class="headerlink" title="装软件😵"></a>装软件😵</h1><p>比较推荐下面的Tex发行版</p>
+<ol>
+<li>TeXLive (Unix/Linux/Windows)</li>
+<li>MacTeX (Mac OSX)</li>
+<li>MiKTeX (Windows)</li>
+</ol>
+<p>装完后一般Tex引擎有pdfTex，TeTeX，LuaTeX等，我也是小白，不会用，基本上知道TeTex引擎是pdfTeX的一个升级版，更具体的信息可以看看自带的<code>READ ME FIRST.pdf</code>。前端可以用自己喜欢的编辑器或者是LaTeXiT和TeXShop编辑自己的简历，我用的是subliem再加个Latexing插件。</p>
+<h1 id="使用模版制作简历"><a href="#使用模版制作简历" class="headerlink" title="使用模版制作简历"></a>使用模版制作简历</h1><p>当然不是从零写起，还是从模版里面改。</p>
+<p>Tex有个有名的简历模版，叫<a href="http://www.ctan.org/pkg/moderncv" target="_blank" rel="external">mordencv</a>。如果我们安装完整版的Tex，那么moderncv这个宏包是已经安装好了的，在目录/usr/local/texlive/2016/texmf-dist/doc/latex下。将example拷出来到一个你喜欢的位置，我们使用template.tex进行修改。<br><figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">documentclass</span><span class="string">[11pt,a4paper,sans]</span><span class="string">&#123;moderncv&#125;</span></span>        <span class="comment">% possible options include font size ('10pt', '11pt' and '12pt'), paper size ('a4paper', 'letterpaper', 'a5paper', 'legalpaper', 'executivepaper' and 'landscape') and font family ('sans' and 'roman')</span></div><div class="line"></div><div class="line"><span class="comment">% moderncv themes</span></div><div class="line"><span class="tag">\<span class="name">moderncvstyle</span><span class="string">&#123;casual&#125;</span></span>                             <span class="comment">% style options are 'casual' (default), 'classic', 'banking', 'oldstyle' and 'fancy'</span></div><div class="line"><span class="tag">\<span class="name">moderncvcolor</span><span class="string">&#123;blue&#125;</span></span>                               <span class="comment">% color options 'black', 'blue' (default), 'burgundy', 'green', 'grey', 'orange', 'purple' and 'red'</span></div><div class="line"><span class="comment">%\renewcommand&#123;\familydefault&#125;&#123;\sfdefault&#125;         % to set the default font; use '\sfdefault' for the default sans serif font, '\rmdefault' for the default roman one, or any tex font name</span></div><div class="line"><span class="comment">%\nopagenumbers&#123;&#125;                                  % uncomment to suppress automatic page numbering for CVs longer than one page</span></div><div class="line"></div><div class="line"><span class="comment">% character encoding</span></div><div class="line"><span class="comment">%\usepackage[utf8]&#123;inputenc&#125;                       % if you are not using xelatex ou lualatex, replace by the encoding you are using</span></div><div class="line"><span class="comment">%\usepackage&#123;CJKutf8&#125;                              % if you need to use CJK to typeset your resume in Chinese, Japanese or Korean</span></div><div class="line"></div><div class="line"><span class="comment">% adjust the page margins</span></div><div class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">[scale=0.75]</span><span class="string">&#123;geometry&#125;</span></span></div><div class="line"><span class="comment">%\setlength&#123;\hintscolumnwidth&#125;&#123;3cm&#125;                % if you want to change the width of the column with the dates</span></div><div class="line"><span class="comment">%\setlength&#123;\makecvtitlenamewidth&#125;&#123;10cm&#125;           % for the 'classic' style, if you want to force the width allocated to your name and avoid line breaks. be careful though, the length is normally calculated to avoid any overlap with your personal info; use this at your own typographical risks...</span></div><div class="line"></div><div class="line"><span class="comment">% personal data</span></div><div class="line"><span class="tag">\<span class="name">name</span><span class="string">&#123;John&#125;</span><span class="string">&#123;Doe&#125;</span></span></div><div class="line"><span class="tag">\<span class="name">title</span><span class="string">&#123;Resumé title&#125;</span></span>                               <span class="comment">% optional, remove / comment the line if not wanted</span></div><div class="line"><span class="tag">\<span class="name">address</span><span class="string">&#123;street and number&#125;</span><span class="string">&#123;postcode city&#125;</span><span class="string">&#123;country&#125;</span></span><span class="comment">% optional, remove / comment the line if not wanted; the "postcode city" and "country" arguments can be omitted or provided empty</span></div><div class="line"><span class="tag">\<span class="name">phone</span><span class="string">[mobile]</span><span class="string">&#123;+1~(234)~567~890&#125;</span></span>                   <span class="comment">% optional, remove / comment the line if not wanted; the optional "type" of the phone can be "mobile" (default), "fixed" or "fax"</span></div><div class="line"><span class="tag">\<span class="name">phone</span><span class="string">[fixed]</span><span class="string">&#123;+2~(345)~678~901&#125;</span></span></div><div class="line"><span class="tag">\<span class="name">phone</span><span class="string">[fax]</span><span class="string">&#123;+3~(456)~789~012&#125;</span></span></div><div class="line"><span class="tag">\<span class="name">email</span><span class="string">&#123;john@doe.org&#125;</span></span>                               <span class="comment">% optional, remove / comment the line if not wanted</span></div><div class="line"><span class="tag">\<span class="name">homepage</span><span class="string">&#123;www.johndoe.com&#125;</span></span>                         <span class="comment">% optional, remove / comment the line if not wanted</span></div><div class="line"><span class="tag">\<span class="name">social</span><span class="string">[linkedin]</span><span class="string">&#123;john.doe&#125;</span></span>                        <span class="comment">% optional, remove / comment the line if not wanted</span></div><div class="line"><span class="tag">\<span class="name">social</span><span class="string">[twitter]</span><span class="string">&#123;jdoe&#125;</span></span>                             <span class="comment">% optional, remove / comment the line if not wanted</span></div><div class="line"><span class="tag">\<span class="name">social</span><span class="string">[github]</span><span class="string">&#123;jdoe&#125;</span></span>                              <span class="comment">% optional, remove / comment the line if not wanted</span></div><div class="line"><span class="tag">\<span class="name">extrainfo</span><span class="string">&#123;additional information&#125;</span></span>                 <span class="comment">% optional, remove / comment the line if not wanted</span></div><div class="line"><span class="tag">\<span class="name">photo</span><span class="string">[64pt]</span><span class="string">[0.4pt]</span><span class="string">&#123;picture&#125;</span></span>                       <span class="comment">% optional, remove / comment the line if not wanted; '64pt' is the height the picture must be resized to, 0.4pt is the thickness of the frame around it (put it to 0pt for no frame) and 'picture' is the name of the picture file</span></div><div class="line"><span class="tag">\<span class="name">quote</span><span class="string">&#123;Some quote&#125;</span></span></div></pre></td></tr></table></figure></p>
+<p>这是一个大致的导言，相应的说明已经很详细了。如果有什么不明白的也可以参考<a href="https://www.xiangsun.org/tex/notes-on-moderncv" target="_blank" rel="external">这篇博文</a>。<br>我选择的是</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">resume-zh</th>
+<th style="text-align:center">resume-en</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/post_imgs/markdown-resume/2.png" alt=""></td>
+<td style="text-align:center"><img src="/post_imgs/markdown-resume/3.png" alt=""></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>很遗憾这个简历没有照片，自己加的话貌似很麻烦，想要照片都是可以用<a href="https://github.com/barraq/pandoc-moderncv" target="_blank" rel="external">这个</a>模版。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> Tex </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 简历 </tag>
+            
+            <tag> Tex </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[使用Markdown写简历]]></title>
-      <url>/2017/04/16/Markdown%20%E5%86%99%E7%AE%80%E5%8E%86/</url>
+      <url>/2017/04/14/Markdown%20%E5%86%99%E7%AE%80%E5%8E%86/</url>
       <content type="html"><![CDATA[<p>转眼就要毕业，以前用学校模版写的简历现在看着怎觉得不顺眼，想着是不是可以用Markdown重新写一个。但是markdown的默认排版显然不够看的，可以用pandoc润色下，还能导出许多格式。但是自己一步步做挺麻烦的，还是去网上找模版吧，嘿哈～</p>
 <a id="more"></a>
 <h1 id="万事Google起"><a href="#万事Google起" class="headerlink" title="万事Google起"></a>万事Google起</h1><p>直接看图片找吧，直接点。<br><img src="/post_imgs/markdown-resume/1.png" alt="resume-google"><br>我从中圈出了几个自己看着还挺合适的，图片点进去一般都能找到相应的github仓库。<br>就选<a href="http://mszep.github.io/pandoc_resume/" target="_blank" rel="external">这个</a>吧！这是其<a href="https://github.com/mszep/pandoc_resume" target="_blank" rel="external">github</a>。</p>
