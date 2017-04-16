@@ -7,7 +7,7 @@
       <url>/2017/04/16/Markdown%20%E5%86%99%E7%AE%80%E5%8E%86/</url>
       <content type="html"><![CDATA[<p>转眼就要毕业，以前用学校模版写的简历现在看着怎觉得不顺眼，想着是不是可以用Markdown重新写一个。但是markdown的默认排版显然不够看的，可以用pandoc润色下，还能导出许多格式。但是自己一步步做挺麻烦的，还是去网上找模版吧，嘿哈～</p>
 <a id="more"></a>
-<h1 id="万事Google起"><a href="#万事Google起" class="headerlink" title="万事Google起"></a>万事Google起</h1><p>直接看图片找吧，直接点。<br><img src="post_imgs/markdown-resume/1.png" alt="resume-google"><br>我从中圈出了几个自己看着还挺合适的，图片点进去一般都能找到相应的github仓库。<br>就选<a href="http://mszep.github.io/pandoc_resume/" target="_blank" rel="external">这个</a>吧！这是其<a href="https://github.com/mszep/pandoc_resume" target="_blank" rel="external">github</a>。</p>
+<h1 id="万事Google起"><a href="#万事Google起" class="headerlink" title="万事Google起"></a>万事Google起</h1><p>直接看图片找吧，直接点。<br><img src="/post_imgs/markdown-resume/1.png" alt="resume-google"><br>我从中圈出了几个自己看着还挺合适的，图片点进去一般都能找到相应的github仓库。<br>就选<a href="http://mszep.github.io/pandoc_resume/" target="_blank" rel="external">这个</a>吧！这是其<a href="https://github.com/mszep/pandoc_resume" target="_blank" rel="external">github</a>。</p>
 <h1 id="使用模版制作简历"><a href="#使用模版制作简历" class="headerlink" title="使用模版制作简历"></a>使用模版制作简历</h1><p>参照github说明，先安装dependencies，ubuntu底下可以使用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install pandoc context</div></pre></td></tr></table></figure>
 <p>然后</p>
@@ -24,8 +24,8 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center"><img src="post_imgs//markdown-resume/2.png" alt=""></td>
-<td style="text-align:center"><img src="post_imgs/markdown-resume/3.png" alt=""></td>
+<td style="text-align:center"><img src="/post_imgs/markdown-resume/2.png" alt=""></td>
+<td style="text-align:center"><img src="/post_imgs/markdown-resume/3.png" alt=""></td>
 <td></td>
 </tr>
 </tbody>
