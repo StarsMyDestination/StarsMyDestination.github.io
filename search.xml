@@ -26,8 +26,9 @@
 </code></pre><p>这句话是为了让各个链接在pdf中能正常打开，去掉moderncv里内置的<code>baseurl=http://</code></p>
 <p>选颜色可以参考<a href="http://colorblender.com/" target="_blank" rel="external">这个网站</a></p>
 <p>对于Latex中的各种语法可以参照<a href="https://wch.github.io/latexsheet/latexsheet.pdf" target="_blank" rel="external">这张cheatsheet</a></p>
-<p>最后的预览图：</p>
-<table>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><p>编译生成PDF文件。LaTeX专用的编辑器，比如上文中提到的Latexit和TeXShop中是自带相关生成选项的，一般情况下，使用pdflatex，xelatex就好，已生成的个人简历PDF文件会存放在与你所编译的*.tex文件的所存放的目录（同级目录）。（在编译过程中会有一些其他的文件，可以把这些文件删除掉。）我用的是xelatex，如</p>
+<pre><code>xelatex template.tex
+</code></pre><h1 id="最后的预览图："><a href="#最后的预览图：" class="headerlink" title="最后的预览图："></a>最后的预览图：</h1><table>
 <thead>
 <tr>
 <th style="text-align:center">resume-zh</th>
