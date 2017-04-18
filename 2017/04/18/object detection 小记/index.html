@@ -7,7 +7,7 @@
 
     
 
-    <title>Markdown | </title>
+    <title>目标检测（图像篇）Object Detection(Image) | </title>
     <meta name="author" content="Jianyun Xu">
     
     <meta name="description" content="THE BEST WAY TO PREDICT FUTURE IS TO CREATE IT!">
@@ -15,7 +15,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="目标检测（图像篇）Object Detection(Image)"/>
     <meta property="og:site_name" content="Stars My Destination"/>
 
     
@@ -233,30 +233,116 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper indigo">
-        <span class="breadcrumb">当前位置（标签）</span>
+        <span class="breadcrumb">当前位置（分类目录）</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Object-Detection/">Object Detection</a>
+
 
         
-            <a class="breadcrumb" href="/tags/Markdown/">Markdown</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>目标检测（图像篇）Object Detection(Image)</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2017-04-17T16:00:00.000Z"><a href="/2017/04/18/object detection 小记/">2017-04-18</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
         
-            <a href="/2017/04/14/Markdown 写简历/" class="collection-item grey-text text-darken-1">
-                <time datetime="2017-04-13T16:00:00.000Z">2017-04-14</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                使用Markdown写简历
-            </a>
+            <a href="/tags/Object-Detection/" class="chip pink lighten-1">Object Detection</a>
+        
+            <a href="/tags/Deep-Learning/" class="chip pink lighten-1">Deep Learning</a>
+        
+            <a href="/tags/Computer-Vision/" class="chip pink lighten-1">Computer Vision</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#目标检测（图像篇）Object-Detection-Image"><span class="section table-of-contents-text">目标检测（图像篇）Object Detection(Image)</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Before-Faster-RCNN-and-YOLO"><span class="section table-of-contents-text">Before Faster RCNN and YOLO</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#Faster-RCNN"><span class="section table-of-contents-text">Faster RCNN</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#YOLO-和-SSD"><span class="section table-of-contents-text">YOLO 和 SSD</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#ref"><span class="section table-of-contents-text">ref</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h1 id="目标检测（图像篇）Object-Detection-Image"><a href="#目标检测（图像篇）Object-Detection-Image" class="headerlink" title="目标检测（图像篇）Object Detection(Image)"></a>目标检测（图像篇）Object Detection(Image)</h1><p>论文要抓紧做了，加油加油！简单的一个小记录。</p>
+<p>paper放在<a href="https://github.com/StarsMyDestination/ML-Papers" target="_blank" rel="external">这儿</a></p>
+<p><a href="https://www.zhihu.com/collection/155393368" target="_blank" rel="external">物体（目标）检测历史发展</a>，分析得十分到位，学习了！</p>
+<h2 id="Before-Faster-RCNN-and-YOLO"><a href="#Before-Faster-RCNN-and-YOLO" class="headerlink" title="Before Faster RCNN and YOLO"></a>Before Faster RCNN and YOLO</h2><p>classic cv：HOG（方向梯度直方图）／ LBP（局部二值模式）+ sliding window（滑窗）／selective search（显著特征搜索） + SVM（ + AdaBoost）</p>
+<blockquote>
+<p>人工提取特征，一般要求你对机器图像领域有较为深刻的理解，另一个是运行速率慢。<br><a id="more"></a><br>rcnn 和 fast rcnn：selective search（显著特征搜索）=&gt; region proposals（候选区域） + CNN判断物体是什么，优化框的位置<br>selective search 较为花费时间，而且圈出的候选区域假正例太多。</p>
+</blockquote>
+<h2 id="Faster-RCNN"><a href="#Faster-RCNN" class="headerlink" title="Faster RCNN"></a>Faster RCNN</h2><p>省去了selective search，用rpn（region proposal network）替代，性能较rcnn和fast rcnn有较大提升。</p>
+<p>Faster RCNN = RPN + Fast-RCNN， RPN负责寻找proposal，Fast-RCNN负责对RPN的结果进一步优化。其实RPN已经可以找到图片中每个物体的种类和位置，如果更注重速度而不是精度的话完全可以只使用RPN。</p>
+<p>RPN是一个全卷积网络(FCN)，由于没有全连接层，所以可以输入任意分辨率的图像，经过网络后就得到一个feature map。这里要先介绍一下文章中提到的anchor这个概念，把这个feature map上的每一个点映射回原图，得到这些点的坐标，然后着这些点周围取一些提前设定好的区域，如选取每个点周围5x5的一个区域，这些选好的区域可以用来训练RPN。假设我们对feature map上的每个点选取了K个anchor，feature map的大小为H*W*C，那么我们再对这个feature map做两次卷积操作，输出分别是H*W*num_class*K和H*W*4*K，分别对应每个点每个anchor属于每一类的概率以及它所对应的物体的坐标，那么怎么训练这个网络那？这个网络的loss function就是一个用于分类的softmax loss和一个用于回归的smooth L1 loss，输出对应的ground truth也很好得到，对于每个anchor，如果它和图片中某个物体的IOU(面积的交/面积的并)大于一个阈值，就认为它属于这一类，否则认为是背景，对于那些是背景的anchor回归的loss就是0，其他anchor位置的ground truth就是它们所对应的物体的位置。RPN其实也很简单，关键的地方就在于选取了一些anchor然后进行pixel-wise的学习。</p>
+<p>RPN也有缺点，最大的问题就是对小物体检测效果很差，假设输入为512*512，经过网络后得到的feature map是32*32，那么feature map上的一个点就要负责周围至少是16*16的一个区域的特征表达，那对于在原图上很小的物体它的特征就难以得到充分的表示，因此检测效果比较差。</p>
+<h2 id="YOLO-和-SSD"><a href="#YOLO-和-SSD" class="headerlink" title="YOLO 和 SSD"></a>YOLO 和 SSD</h2><p>去掉了费时的RPN，输入任意大小的图片，输出目标位置和类别，即所谓端到端模型。<br>YOLO将图片resize到固定大小，划定固定数量的格子，若物体中心落在某个格子，则计算这个格子几个先验边框的分数和分类置信度。YOLO对同一个格子里的物体只能检测出一个，所以一些“小个子”就发现不了了。具体参见知乎大神2<a href="https://zhuanlan.zhihu.com/p/25045711" target="_blank" rel="external">YOLO</a>，<a href="https://zhuanlan.zhihu.com/p/25052190" target="_blank" rel="external">YOLO升级版</a><br>SSD和YOLO很像，但是划分的格子有两种大小，一定程度上增加了小物体被检测到的几率。另外SSD借鉴了Faster-RCNN中Anchor Box的特点，用来框定目标位置，<strong>在训练时ground truth会赋予给某个固定的Box。</strong>另外，SSD采用了多尺度特征映射层，这也是其准确度再次提升的关键。<a href="https://arxiv.org/abs/1512.02325" target="_blank" rel="external">论文</a>,github <a href="https://github.com/weiliu89/caffe/tree/ssd" target="_blank" rel="external">caffe</a> <a href="https://github.com/balancap/SSD-Tensorflow" target="_blank" rel="external">tensorflow</a>。TensorFlow源码分析参见知乎大神2的<a href="https://zhuanlan.zhihu.com/p/25100992" target="_blank" rel="external">这个博客</a></p>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><p><a href="http://lufo.me/2016/10/detection/" target="_blank" rel="external">http://lufo.me/2016/10/detection/</a></p>
+<p>知乎大神1<a href="https://www.zhihu.com/collection/155393368" target="_blank" rel="external">目标检测算法历史发展</a></p>
+<p>知乎大神2<a href="https://zhuanlan.zhihu.com/p/25045711" target="_blank" rel="external">YOLO</a>，<a href="https://zhuanlan.zhihu.com/p/25052190" target="_blank" rel="external">YOLO升级版</a></p>
+<p>还是知乎大神2<a href="https://zhuanlan.zhihu.com/p/25100992" target="_blank" rel="external">SSD关键源码解析</a></p>
+
+                
+<p class="pink-link-context">
+    <a href="/2017/04/16/Tex 写简历/" rel="next" title="使用Tex写简历">
+    上一篇：使用Tex写简历
+  </a>
+</p>
+
+
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://yoursite.com/2017/04/18/object detection 小记/';
+                this.page.identifier = '2017/04/18/object detection 小记/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//stars.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
 
 
 </div>
