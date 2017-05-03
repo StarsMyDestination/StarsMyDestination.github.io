@@ -51,7 +51,7 @@
                         <a class="menu-home " href="/" >
                             <i class="fa fa-home "></i>
                             
-                            首頁
+                            Home
                         </a>
                     </li>
                 
@@ -59,7 +59,7 @@
                         <a class="menu-archive " href="/archives" >
                             <i class="fa fa-archive "></i>
                             
-                            彙整
+                            Archives
                         </a>
                     </li>
                 
@@ -67,7 +67,7 @@
                         <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
                             <i class="fa fa-bookmark "></i>
                             
-                            分類
+                            Categories
                         </a>
                     </li>
                 
@@ -75,7 +75,7 @@
                         <a class="menu-reading " href="/reading" >
                             <i class="fa fa-book "></i>
                             
-                            讀書
+                            Reading
                         </a>
                     </li>
                 
@@ -83,7 +83,7 @@
                         <a class="menu-about " href="/about" >
                             <i class="fa fa-user "></i>
                             
-                            關於
+                            About
                         </a>
                     </li>
                 
@@ -91,7 +91,7 @@
                         <a class="menu-search modal-trigger " href="#search" >
                             <i class="fa fa-search "></i>
                             
-                            搜尋
+                            Search
                         </a>
                     </li>
                 
@@ -119,7 +119,7 @@
                 <a class="waves-effect menu-home " href="/" >
                     <i class="fa fa-home "></i>
                     
-                    首頁
+                    Home
                 </a>
             </li>
         
@@ -127,7 +127,7 @@
                 <a class="waves-effect menu-archive " href="/archives" >
                     <i class="fa fa-archive "></i>
                     
-                    彙整
+                    Archives
                 </a>
             </li>
         
@@ -135,7 +135,7 @@
                 <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
                     <i class="fa fa-bookmark "></i>
                     
-                    分類
+                    Categories
                 </a>
             </li>
         
@@ -143,7 +143,7 @@
                 <a class="waves-effect menu-reading " href="/reading" >
                     <i class="fa fa-book "></i>
                     
-                    讀書
+                    Reading
                 </a>
             </li>
         
@@ -151,7 +151,7 @@
                 <a class="waves-effect menu-about " href="/about" >
                     <i class="fa fa-user "></i>
                     
-                    關於
+                    About
                 </a>
             </li>
         
@@ -159,7 +159,7 @@
                 <a class="waves-effect menu-search modal-trigger " href="#search" >
                     <i class="fa fa-search "></i>
                     
-                    搜尋
+                    Search
                 </a>
             </li>
         
@@ -172,15 +172,7 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Markdown/">
-                    Markdown <span class="right">1 篇</span></a>
-                </a>
-            </li>
-
-        
-
-            <li class="collapse-level-0" collapse-level="0">
-                <a class="no-padding" href="/categories/Hexo/">
-                    Hexo <span class="right">1 篇</span></a>
+                    Markdown <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -188,7 +180,15 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Tex/">
-                    Tex <span class="right">1 篇</span></a>
+                    Tex <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Hexo/">
+                    Hexo <span class="right">2</span></a>
                 </a>
             </li>
 
@@ -196,7 +196,7 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Object-Detection/">
-                    Object-Detection <span class="right">1 篇</span></a>
+                    Object-Detection <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -204,7 +204,7 @@
 
             <li class="collapse-level-0" collapse-level="0">
                 <a class="no-padding" href="/categories/Python/">
-                    Python <span class="right">1 篇</span></a>
+                    Python <span class="right">1</span></a>
                 </a>
             </li>
 
@@ -221,7 +221,7 @@
     <div class="row">
         <div class="input-field col s12">
               <input id="search-input" type="text">
-              <label for="search-input">搜尋</label>
+              <label for="search-input">Search</label>
         </div>
 
     </div>
@@ -280,6 +280,50 @@
             <div class="article-title">
                 
     
+        <h1 class="indigo-link-context"><a href="/2017/05/03/hexo常用命令与多机同步/">hexo常用命令与多机同步</a></h1>
+    
+
+
+            </div>
+
+            <time class="pink-link-context" datetime="2017-05-03T13:32:16.000Z"><a href="/2017/05/03/hexo常用命令与多机同步/">2017-05-03</a></time>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/Hexo/" class="chip pink lighten-1">Hexo</a>
+        
+            <a href="/tags/常用命令/" class="chip pink lighten-1">常用命令</a>
+        
+            <a href="/tags/多机同步/" class="chip pink lighten-1">多机同步</a>
+        
+    </div>
+
+
+
+            
+                <div class="entry pink-link-context">
+                    <p>hexo 极大地方便了博客的书写，并且能提供多种多样的主题😁。对于hexo常用的几个命令当然要非常熟练。</p>
+<p>但是将hexo博客托管在github上后，发现多机同步跟想象中的不一样啊。hexo的deploy并没有在本地初始化git仓库，用的貌似是另外一套机制，而且博客原文并没有传到github上，传上去的是一些编译之后的html等文件，这样对于多机同时管理博客就有点不方便了。看样子有必要在本地重新配置一个git仓库，把必要的一些文件都传上去，这样子在另外一台电脑也可以开心地写博客了。</p>
+                </div>
+            
+        </div>
+
+        
+        <div class="card-action pink-link-context">
+            <a href="/2017/05/03/hexo常用命令与多机同步/">READ MORE</a>
+        </ div>
+        
+    </div>
+</article>
+
+    
+        <article class="simple-article">
+    <div class="card">
+        <div class="card-content">
+            <div class="article-title">
+                
+    
         <h1 class="indigo-link-context"><a href="/2017/04/18/object detection 小记/">目标检测（图像篇）Object Detection(Image)</a></h1>
     
 
@@ -315,7 +359,7 @@
 
         
         <div class="card-action pink-link-context">
-            <a href="/2017/04/18/object detection 小记/">閱讀全文</a>
+            <a href="/2017/04/18/object detection 小记/">READ MORE</a>
         </ div>
         
     </div>
@@ -356,7 +400,7 @@
 
         
         <div class="card-action pink-link-context">
-            <a href="/2017/04/16/Tex 写简历/">閱讀全文</a>
+            <a href="/2017/04/16/Tex 写简历/">READ MORE</a>
         </ div>
         
     </div>
@@ -397,7 +441,7 @@
 
         
         <div class="card-action pink-link-context">
-            <a href="/2017/04/14/Markdown 写简历/">閱讀全文</a>
+            <a href="/2017/04/14/Markdown 写简历/">READ MORE</a>
         </ div>
         
     </div>
@@ -438,7 +482,7 @@
 
         
         <div class="card-action pink-link-context">
-            <a href="/2017/04/12/python-absolute-import/">閱讀全文</a>
+            <a href="/2017/04/12/python-absolute-import/">READ MORE</a>
         </ div>
         
     </div>
@@ -480,7 +524,7 @@
 
         
         <div class="card-action pink-link-context">
-            <a href="/2014/02/23/hello-world/">閱讀全文</a>
+            <a href="/2014/02/23/hello-world/">READ MORE</a>
         </ div>
         
     </div>
@@ -509,7 +553,7 @@
       <i class="fa fa-caret-square-o-up"></i>
     </a>
     <ul>
-      <li><a class="btn-return-top btn-floating waves-effect green" title="回到頂部"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-return-top btn-floating waves-effect green" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
       <li><a class="btn-floating waves-effect button-collapse yellow darken-1"  data-activates="main-menu" title="menu"><i class="fa fa-navicon"></i></a></li>
     </ul>
   </div>
@@ -521,7 +565,7 @@
         <div class="row">
             
             <div class="social-group col m4 s12">
-                <h5 class="white-text">社交</h5>
+                <h5 class="white-text">Social</h5>
                 
                     <a class="social-link" href="https://www.linkedin.com/in/%E5%BB%BA%E4%BA%91-%E5%BE%90-a3bab3140" target="_blank">
                         <i class="fa fa-2x fa-linkedin"></i>
@@ -551,7 +595,7 @@
 
             
             <div class="col m8 s12">
-                <h5 class="white-text">友情連結</h5>
+                <h5 class="white-text">Links</h5>
                 
                     <a class="social-link" href="https://wenglihong.github.io/" target="_blank">wenglihong</a>
                 
@@ -564,7 +608,7 @@
     <div class="footer-copyright pink-link-context">
         <div class="container">
             © 2017 StarsMyDestination, All rights reserved.
-            <p class="right" style="margin-top: 0;">本站使用 <a href="https://hexo.io">Hexo</a> 建置 | 主題 <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
         </div>
     </div>
 </footer>
