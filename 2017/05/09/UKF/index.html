@@ -1,0 +1,719 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+
+    <title>Udacity-CarND UKF 学习笔记 | </title>
+    <meta name="author" content="Jianyun Xu">
+    
+    <meta name="description" content="THE BEST WAY TO PREDICT FUTURE IS TO CREATE IT!">
+    
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta property="og:title" content="Udacity-CarND UKF 学习笔记"/>
+    <meta property="og:site_name" content="Stars My Destination"/>
+
+    
+    <meta property="og:image" content="undefined"/>
+    
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" href="/atom.xml" title="Stars My Destination" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/lib/materialize.min.css">
+    <link rel="stylesheet" href="/css/lib/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+
+    
+        <link rel="stylesheet" href="/css/lib/prettify-tomorrow-night-eighties.css" type="text/css">
+    
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+
+<body>
+    <img src="/weixin_favicon.png" style="position: absolute; left: -9999px; opacity: 0; filter: alpha(opacity=0);">
+
+    <nav class="indigo">
+    <div class="nav-wrapper">
+        <a href="#" data-activates="main-menu" class="button-collapse">
+            <i class="fa fa-navicon"></i>
+        </a>
+        <div class="">
+            <a href="/" class="brand-logo hide-on-med-and-down">Stars My Destination</a>
+            <ul class="right hide-on-med-and-down">
+                
+                    <li>
+                        <a class="menu-home " href="/" >
+                            <i class="fa fa-home "></i>
+                            
+                            Home
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-archive " href="/archives" >
+                            <i class="fa fa-archive "></i>
+                            
+                            Archives
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                            <i class="fa fa-bookmark "></i>
+                            
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-reading " href="/reading" >
+                            <i class="fa fa-book "></i>
+                            
+                            Reading
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-about " href="/about" >
+                            <i class="fa fa-user "></i>
+                            
+                            About
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="menu-search modal-trigger " href="#search" >
+                            <i class="fa fa-search "></i>
+                            
+                            Search
+                        </a>
+                    </li>
+                
+            </ul>
+            <div>
+    <ul class="side-nav indigo darken-1" id="main-menu">
+        
+        <li class="side-user">
+            <div class="row">
+                <div class="col s4 no-padding">
+                    <img class="avatar-image circle responsive-img" src="/avatar.jpg" alt="User Avatar">
+                </div>
+                <div class="info col s8 valign-wrapper no-padding">
+                    <div class="valign">
+                        <p class="name">Jianyun Xu／徐建云</p>
+                        <p class="desc">Self-Driving/Machine Learning/ROS</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        
+
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-home " href="/" >
+                    <i class="fa fa-home "></i>
+                    
+                    Home
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-archive " href="/archives" >
+                    <i class="fa fa-archive "></i>
+                    
+                    Archives
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-category category-menu" href="javascript:;" data-activates="category-menu" >
+                    <i class="fa fa-bookmark "></i>
+                    
+                    Categories
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-reading " href="/reading" >
+                    <i class="fa fa-book "></i>
+                    
+                    Reading
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-about " href="/about" >
+                    <i class="fa fa-user "></i>
+                    
+                    About
+                </a>
+            </li>
+        
+            <li class="no-padding">
+                <a class="waves-effect menu-search modal-trigger " href="#search" >
+                    <i class="fa fa-search "></i>
+                    
+                    Search
+                </a>
+            </li>
+        
+    </ul>
+
+    <ul class="side-nav indigo darken-1" id="category-menu">
+    
+
+            
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Markdown/">
+                    Markdown <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Sensor-Fusion/">
+                    Sensor-Fusion <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Tex/">
+                    Tex <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Hexo/">
+                    Hexo <span class="right">2</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Object-Detection/">
+                    Object-Detection <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Python/">
+                    Python <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+            <li class="collapse-level-0" collapse-level="0">
+                <a class="no-padding" href="/categories/Machine-Learning/">
+                    Machine-Learning <span class="right">1</span></a>
+                </a>
+            </li>
+
+        
+
+    </ul>
+</div>
+
+        </div>
+    </div>
+</nav>
+
+<div id="search" class="modal search-modal">
+    <div class="row">
+        <div class="input-field col s12">
+              <input id="search-input" type="text">
+              <label for="search-input">Search</label>
+        </div>
+
+    </div>
+    <div id="search-result" class="search-result col s12">
+
+    </div>
+</div>
+
+
+    <main>
+        <div class="container main-container">
+    <nav class="page-nav hide-on-small-only">
+    <div class="nav-wrapper indigo">
+        <span class="breadcrumb">Current page(Categories)</span>
+        
+            
+    
+    
+    <a class="breadcrumb" href="/categories/Sensor-Fusion/">Sensor Fusion</a>
+
+
+        
+
+        
+    </div>
+</nav>
+
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>Udacity-CarND UKF 学习笔记</h1>
+    
+
+
+            </div>
+            <time class="pink-link-context" datetime="2017-05-08T16:00:00.000Z"><a href="/2017/05/09/UKF/">2017-05-09</a></time>
+
+            <span id="busuanzi_container_page_pv" class="read-times-container">
+    <i class="fa fa-eye"></i>
+    <span id="busuanzi_value_page_pv"></span>
+</span>
+
+            
+    <div class="tags-row">
+        
+            <a href="/tags/无迹卡尔曼/" class="chip pink lighten-1">无迹卡尔曼</a>
+        
+            <a href="/tags/sensor-fusion/" class="chip pink lighten-1">sensor fusion</a>
+        
+    </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#状态方程或过程模型（Process-Model）"><span class="section table-of-contents-text">状态方程或过程模型（Process Model）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#Pipeline"><span class="section table-of-contents-text">Pipeline</span></a></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#预测（Prediction）"><span class="section table-of-contents-text">预测（Prediction）</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#生成Sigma-点"><span class="section table-of-contents-text">生成Sigma 点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#预测sigma点"><span class="section table-of-contents-text">预测sigma点</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#预测均值和方差"><span class="section table-of-contents-text">预测均值和方差</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#更新（Update）"><span class="section table-of-contents-text">更新（Update）</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#预测观测值（-Predict-Measurement）"><span class="section table-of-contents-text">预测观测值（ Predict Measurement）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#状态更新（State-Update）"><span class="section table-of-contents-text">状态更新（State Update）</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-1"><a class="section table-of-contents-link" href="#参数与一致性（Parameter-and-Consistency）"><span class="section table-of-contents-text">参数与一致性（Parameter and Consistency）</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#测量噪声（Measurement-Noise）"><span class="section table-of-contents-text">测量噪声（Measurement Noise）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#过程噪声（Process-Noise）"><span class="section table-of-contents-text">过程噪声（Process Noise）</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#一致性评估（Consistency）"><span class="section table-of-contents-text">一致性评估（Consistency）</span></a></li></ol></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <p>Udacity 自动驾驶工程师纳米学位 第二学期 无迹卡尔曼（UKF）学习笔记</p>
+<p><img src="/post_imgs/UKF/ukf-1.png" width="400" height="" alt="CTRV" align="center"></p>
+<p>UKF 可采用匀速圆周运动模型，CTRV（Constant Turning Rate and Velocity model）</p>
+<h1 id="状态方程或过程模型（Process-Model）"><a href="#状态方程或过程模型（Process-Model）" class="headerlink" title="状态方程或过程模型（Process Model）"></a>状态方程或过程模型（Process Model）</h1><p>状态向量（state vector）选取<br>$$ x = (p_x, p_y, v, \psi, \dot {\psi}) $$</p>
+<p>状态方程或过程模型（process model）如何得到，一个比较通用（general）的方法就是求解状态在两帧之间的变化量（Change Rate of State），其实就是状态量关于时间的微分。<br><a id="more"></a><br>$$<br>\dot x = (\dot p_x, \dot p_y, \dot v, \dot \psi, \ddot {\psi})<br>$$<br>$$<br>=(v\cdot cos\psi, v\cdot sin\psi, 0, \dot \psi, 0)<br>$$</p>
+<p>Process Model：<br><img src="/post_imgs/UKF/ukf-2.png" width="400" height="" alt="PM" align="center"></p>
+<p>当yaw rate是0的时候，也就是直线运动时，因为状态转移方程中，前两项含有$\frac{v}{\dot \psi}$上述方程会发生奇异，所以当yaw rate为0时，转移矩阵要略作修改为：<br>$$<br>x_{k+1} = x_k + (v_k\cdot cos\psi_k\cdot \Delta t, v_k\cdot sin\psi_k \cdot \Delta t, 0, 0, 0)^T<br>$$</p>
+<p>上述是过程模型确定部分（deterministic part），还要再加上随机部分（stochastic part），由于纵向加速度和角速度会因为各种情况随机地发生，根据中心极限定理，叠加的加速度会成高斯分布，所以可以将这两部分加速度处理成噪声加入到过程模型中。</p>
+<p><img src="/post_imgs/UKF/ukf-3.png" width="400" height="" alt="Noise" align="center"></p>
+<p><img src="/post_imgs/UKF/ukf-4.png" width="400" height="" alt="Noise" align="center"></p>
+<p>假设在连续两帧之间，线加速度和角加速度都为常数，并且位置噪声噪声做一阶近似，那么可以得到上述</p>
+<p>$$<br>a = 1/2\nu_{a,k} \cdot cos\psi_k \cdot \Delta t^2<br>$$</p>
+<p>$$<br>b = 1/2\nu_{a,k} \cdot sin\psi_k \cdot \Delta t^2<br>$$</p>
+<p>$$<br>c = \nu_{a,k} \cdot \Delta t<br>$$</p>
+<p>$$<br>d = 1/2\nu_{\ddot \psi,k} \cdot \Delta t^2<br>$$</p>
+<p>$$<br>e = \nu_{\ddot \psi, k} \cdot \Delta t<br>$$</p>
+<h1 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h1><p><img src="/post_imgs/UKF/ukf-5.png" width="400" height="" alt="pipeline" align="center"></p>
+<h1 id="预测（Prediction）"><a href="#预测（Prediction）" class="headerlink" title="预测（Prediction）"></a>预测（Prediction）</h1><h2 id="生成Sigma-点"><a href="#生成Sigma-点" class="headerlink" title="生成Sigma 点"></a>生成Sigma 点</h2><p>UKF也是为解决非线性模型诞生的（这个非线性有可能是状态转换的非线性也有可能是测量的非线性），但不同于EKF求解Jacob矩阵或是Hessian矩阵将非线性函数线性化（相当于将整个分布通过线性化的转移函数映射到了预测空间）；相反，UKF选择的是将原状态空间里的某些具有代表性的点（这个代表性指的是这些点能代表整个分布的特点），即所谓Sigma点，通过非线性转移函数映射到预测空间，在预测空间中再去计算这个Sigma点的均值方差，用另一个高斯分布来近似数据在预测空间的分布。</p>
+<p><img src="/post_imgs/UKF/ukf-6.png" width="400" height="" alt="generate sigma" align="center"></p>
+<p><img src="/post_imgs/UKF/ukf-7.png" width="400" height="" alt="generate sigma" align="center"></p>
+<p>Sigma点数量与当前状态向量维度（$n_x$）有关：</p>
+<p>$$<br>n_\sigma = 2n_x + 1<br>$$</p>
+<p>sigma 点计算公式：</p>
+<p><img src="/post_imgs/UKF/ukf-8.png" width="400" height="" alt="sigma formula" align="center"></p>
+<p>第一个sigma点就是均值点，$\sqrt {P_{k|k}}$是$n_x$个sigma点的方向，$\lambda$可以用来设置这些sigma点距离均值点的远近。</p>
+<p>下面这张图假设状态量只有位置（x，y）：</p>
+<p><img src="/post_imgs/UKF/ukf-9.png" width="400" height="" alt="sigma example" align="center"></p>
+<p><strong>代码</strong>， <code>GenerateSigmaPoints()</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> UKF::GenerateSigmaPoints(MatrixXd* Xsig_out) &#123;</div><div class="line"></div><div class="line">  <span class="comment">//set state dimension</span></div><div class="line">  <span class="keyword">int</span> n_x = <span class="number">5</span>;</div><div class="line"></div><div class="line">  <span class="comment">//define spreading parameter</span></div><div class="line">  <span class="keyword">double</span> lambda = <span class="number">3</span> - n_x;</div><div class="line"></div><div class="line">  <span class="comment">//set example state</span></div><div class="line">  VectorXd x = VectorXd(n_x);</div><div class="line">  x &lt;&lt;   <span class="number">5.7441</span>,</div><div class="line">         <span class="number">1.3800</span>,</div><div class="line">         <span class="number">2.2049</span>,</div><div class="line">         <span class="number">0.5015</span>,</div><div class="line">         <span class="number">0.3528</span>;</div><div class="line"></div><div class="line">  <span class="comment">//set example covariance matrix</span></div><div class="line">  MatrixXd P = MatrixXd(n_x, n_x);</div><div class="line">  P &lt;&lt;     <span class="number">0.0043</span>,   <span class="number">-0.0013</span>,    <span class="number">0.0030</span>,   <span class="number">-0.0022</span>,   <span class="number">-0.0020</span>,</div><div class="line">          <span class="number">-0.0013</span>,    <span class="number">0.0077</span>,    <span class="number">0.0011</span>,    <span class="number">0.0071</span>,    <span class="number">0.0060</span>,</div><div class="line">           <span class="number">0.0030</span>,    <span class="number">0.0011</span>,    <span class="number">0.0054</span>,    <span class="number">0.0007</span>,    <span class="number">0.0008</span>,</div><div class="line">          <span class="number">-0.0022</span>,    <span class="number">0.0071</span>,    <span class="number">0.0007</span>,    <span class="number">0.0098</span>,    <span class="number">0.0100</span>,</div><div class="line">          <span class="number">-0.0020</span>,    <span class="number">0.0060</span>,    <span class="number">0.0008</span>,    <span class="number">0.0100</span>,    <span class="number">0.0123</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create sigma point matrix</span></div><div class="line">  MatrixXd Xsig = MatrixXd(n_x, <span class="number">2</span> * n_x + <span class="number">1</span>);</div><div class="line"></div><div class="line">  <span class="comment">//calculate square root of P</span></div><div class="line">  MatrixXd A = P.llt().matrixL();</div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part begin</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//set first column of sigma point matrix</span></div><div class="line">  Xsig.col(<span class="number">0</span>)  = x;</div><div class="line"></div><div class="line">  <span class="comment">//set remaining sigma points</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_x; i++)</div><div class="line">  &#123;</div><div class="line">    Xsig.col(i+<span class="number">1</span>)     = x + <span class="built_in">sqrt</span>(lambda+n_x) * A.col(i);</div><div class="line">    Xsig.col(i+<span class="number">1</span>+n_x) = x - <span class="built_in">sqrt</span>(lambda+n_x) * A.col(i);</div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part end</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//print result</span></div><div class="line">  <span class="comment">//std::cout &lt;&lt; "Xsig = " &lt;&lt; std::endl &lt;&lt; Xsig &lt;&lt; std::endl;</span></div><div class="line"></div><div class="line">  <span class="comment">//write result</span></div><div class="line">  *Xsig_out = Xsig;</div><div class="line"></div><div class="line"><span class="comment">/* expected result:</span></div><div class="line">   Xsig =</div><div class="line">    5.7441  5.85768   5.7441   5.7441   5.7441   5.7441  5.63052   5.7441   5.7441   5.7441   5.7441</div><div class="line">      1.38  1.34566  1.52806     1.38     1.38     1.38  1.41434  1.23194     1.38     1.38     1.38</div><div class="line">    2.2049  2.28414  2.24557  2.29582   2.2049   2.2049  2.12566  2.16423  2.11398   2.2049   2.2049</div><div class="line">    0.5015  0.44339 0.631886 0.516923 0.595227   0.5015  0.55961 0.371114 0.486077 0.407773   0.5015</div><div class="line">    0.3528 0.299973 0.462123 0.376339  0.48417 0.418721 0.405627 0.243477 0.329261  0.22143 0.286879</div><div class="line">*/</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="预测sigma点"><a href="#预测sigma点" class="headerlink" title="预测sigma点"></a>预测sigma点</h2><p>接下来需要将sigma点通过非线性方程（如下）映射到预测空间的sigma点。</p>
+<p><img src="/post_imgs/UKF/ukf-10.png" width="400" height="" alt="process formula" align="center"></p>
+<p>但是在这个过程中需要用到噪声$\nu<em>a$和$\nu</em>{\ddot \psi}$。在UKF中对噪声的非线性处理非常简单，将其也加入到sigma点生成中，得到增广sigma点矩阵。</p>
+<p><img src="/post_imgs/UKF/ukf-11.png" width="400" height="" alt="augmented sigma" align="center"></p>
+<p>这样子便可以将增广sigma矩阵中的每个sigma点代入到非线性过程函数$f(x_k, \nu_k)$中得到预测的状态量。</p>
+<p><strong>代码</strong>，<code>AugmentedSigmaPoints()</code>和<code>SigmaPointPrediction()</code> :</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> UKF::AugmentedSigmaPoints(MatrixXd* Xsig_out) &#123;</div><div class="line"></div><div class="line">  <span class="comment">//set state dimension</span></div><div class="line">  <span class="keyword">int</span> n_x = <span class="number">5</span>;</div><div class="line"></div><div class="line">  <span class="comment">//set augmented dimension</span></div><div class="line">  <span class="keyword">int</span> n_aug = <span class="number">7</span>;</div><div class="line"></div><div class="line">  <span class="comment">//Process noise standard deviation longitudinal acceleration in m/s^2</span></div><div class="line">  <span class="keyword">double</span> std_a = <span class="number">0.2</span>;</div><div class="line"></div><div class="line">  <span class="comment">//Process noise standard deviation yaw acceleration in rad/s^2</span></div><div class="line">  <span class="keyword">double</span> std_yawdd = <span class="number">0.2</span>;</div><div class="line"></div><div class="line">  <span class="comment">//define spreading parameter</span></div><div class="line">  <span class="keyword">double</span> lambda = <span class="number">3</span> - n_aug;</div><div class="line"></div><div class="line">  <span class="comment">//set example state</span></div><div class="line">  VectorXd x = VectorXd(n_x);</div><div class="line">  x &lt;&lt;   <span class="number">5.7441</span>,</div><div class="line">         <span class="number">1.3800</span>,</div><div class="line">         <span class="number">2.2049</span>,</div><div class="line">         <span class="number">0.5015</span>,</div><div class="line">         <span class="number">0.3528</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example covariance matrix</span></div><div class="line">  MatrixXd P = MatrixXd(n_x, n_x);</div><div class="line">  P &lt;&lt;     <span class="number">0.0043</span>,   <span class="number">-0.0013</span>,    <span class="number">0.0030</span>,   <span class="number">-0.0022</span>,   <span class="number">-0.0020</span>,</div><div class="line">          <span class="number">-0.0013</span>,    <span class="number">0.0077</span>,    <span class="number">0.0011</span>,    <span class="number">0.0071</span>,    <span class="number">0.0060</span>,</div><div class="line">           <span class="number">0.0030</span>,    <span class="number">0.0011</span>,    <span class="number">0.0054</span>,    <span class="number">0.0007</span>,    <span class="number">0.0008</span>,</div><div class="line">          <span class="number">-0.0022</span>,    <span class="number">0.0071</span>,    <span class="number">0.0007</span>,    <span class="number">0.0098</span>,    <span class="number">0.0100</span>,</div><div class="line">          <span class="number">-0.0020</span>,    <span class="number">0.0060</span>,    <span class="number">0.0008</span>,    <span class="number">0.0100</span>,    <span class="number">0.0123</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create augmented mean vector</span></div><div class="line">  VectorXd x_aug = VectorXd(<span class="number">7</span>);</div><div class="line"></div><div class="line">  <span class="comment">//create augmented state covariance</span></div><div class="line">  MatrixXd P_aug = MatrixXd(<span class="number">7</span>, <span class="number">7</span>);</div><div class="line"></div><div class="line">  <span class="comment">//create sigma point matrix</span></div><div class="line">  MatrixXd Xsig_aug = MatrixXd(n_aug, <span class="number">2</span> * n_aug + <span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part begin</div><div class="line"> ******************************************************************************/</div><div class="line"> </div><div class="line">  <span class="comment">//create augmented mean state</span></div><div class="line">  x_aug.head(<span class="number">5</span>) = x;</div><div class="line">  x_aug(<span class="number">5</span>) = <span class="number">0</span>;</div><div class="line">  x_aug(<span class="number">6</span>) = <span class="number">0</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create augmented covariance matrix</span></div><div class="line">  P_aug.fill(<span class="number">0.0</span>);</div><div class="line">  P_aug.topLeftCorner(<span class="number">5</span>,<span class="number">5</span>) = P;</div><div class="line">  P_aug(<span class="number">5</span>,<span class="number">5</span>) = std_a*std_a;</div><div class="line">  P_aug(<span class="number">6</span>,<span class="number">6</span>) = std_yawdd*std_yawdd;</div><div class="line"></div><div class="line">  <span class="comment">//create square root matrix</span></div><div class="line">  MatrixXd L = P_aug.llt().matrixL();</div><div class="line"></div><div class="line">  <span class="comment">//create augmented sigma points</span></div><div class="line">  Xsig_aug.col(<span class="number">0</span>)  = x_aug;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; n_aug; i++)</div><div class="line">  &#123;</div><div class="line">    Xsig_aug.col(i+<span class="number">1</span>)       = x_aug + <span class="built_in">sqrt</span>(lambda+n_aug) * L.col(i);</div><div class="line">    Xsig_aug.col(i+<span class="number">1</span>+n_aug) = x_aug - <span class="built_in">sqrt</span>(lambda+n_aug) * L.col(i);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part end</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//print result</span></div><div class="line"></div><div class="line"></div><div class="line">  <span class="comment">//write result</span></div><div class="line">  *Xsig_out = Xsig_aug;</div><div class="line"></div><div class="line"><span class="comment">/* expected result:</span></div><div class="line">   Xsig_aug =</div><div class="line">  5.7441  5.85768   5.7441   5.7441   5.7441   5.7441   5.7441   5.7441  5.63052   5.7441   5.7441   5.7441   5.7441   5.7441   5.7441</div><div class="line">    1.38  1.34566  1.52806     1.38     1.38     1.38     1.38     1.38  1.41434  1.23194     1.38     1.38     1.38     1.38     1.38</div><div class="line">  2.2049  2.28414  2.24557  2.29582   2.2049   2.2049   2.2049   2.2049  2.12566  2.16423  2.11398   2.2049   2.2049   2.2049   2.2049</div><div class="line">  0.5015  0.44339 0.631886 0.516923 0.595227   0.5015   0.5015   0.5015  0.55961 0.371114 0.486077 0.407773   0.5015   0.5015   0.5015</div><div class="line">  0.3528 0.299973 0.462123 0.376339  0.48417 0.418721   0.3528   0.3528 0.405627 0.243477 0.329261  0.22143 0.286879   0.3528   0.3528</div><div class="line">       0        0        0        0        0        0  0.34641        0        0        0        0        0        0 -0.34641        0</div><div class="line">       0        0        0        0        0        0        0  0.34641        0        0        0        0        0        0 -0.34641</div><div class="line">*/</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> UKF::SigmaPointPrediction(MatrixXd* Xsig_out) &#123;</div><div class="line"></div><div class="line">  <span class="comment">//set state dimension</span></div><div class="line">  <span class="keyword">int</span> n_x = <span class="number">5</span>;</div><div class="line"></div><div class="line">  <span class="comment">//set augmented dimension</span></div><div class="line">  <span class="keyword">int</span> n_aug = <span class="number">7</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example sigma point matrix</span></div><div class="line">  MatrixXd Xsig_aug = MatrixXd(n_aug, <span class="number">2</span> * n_aug + <span class="number">1</span>);</div><div class="line">     Xsig_aug &lt;&lt;</div><div class="line">    <span class="number">5.7441</span>,  <span class="number">5.85768</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.63052</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,   <span class="number">5.7441</span>,</div><div class="line">      <span class="number">1.38</span>,  <span class="number">1.34566</span>,  <span class="number">1.52806</span>,     <span class="number">1.38</span>,     <span class="number">1.38</span>,     <span class="number">1.38</span>,     <span class="number">1.38</span>,     <span class="number">1.38</span>,   <span class="number">1.41434</span>,  <span class="number">1.23194</span>,     <span class="number">1.38</span>,     <span class="number">1.38</span>,     <span class="number">1.38</span>,     <span class="number">1.38</span>,     <span class="number">1.38</span>,</div><div class="line">    <span class="number">2.2049</span>,  <span class="number">2.28414</span>,  <span class="number">2.24557</span>,  <span class="number">2.29582</span>,   <span class="number">2.2049</span>,   <span class="number">2.2049</span>,   <span class="number">2.2049</span>,   <span class="number">2.2049</span>,   <span class="number">2.12566</span>,  <span class="number">2.16423</span>,  <span class="number">2.11398</span>,   <span class="number">2.2049</span>,   <span class="number">2.2049</span>,   <span class="number">2.2049</span>,   <span class="number">2.2049</span>,</div><div class="line">    <span class="number">0.5015</span>,  <span class="number">0.44339</span>, <span class="number">0.631886</span>, <span class="number">0.516923</span>, <span class="number">0.595227</span>,   <span class="number">0.5015</span>,   <span class="number">0.5015</span>,   <span class="number">0.5015</span>,   <span class="number">0.55961</span>, <span class="number">0.371114</span>, <span class="number">0.486077</span>, <span class="number">0.407773</span>,   <span class="number">0.5015</span>,   <span class="number">0.5015</span>,   <span class="number">0.5015</span>,</div><div class="line">    <span class="number">0.3528</span>, <span class="number">0.299973</span>, <span class="number">0.462123</span>, <span class="number">0.376339</span>,  <span class="number">0.48417</span>, <span class="number">0.418721</span>,   <span class="number">0.3528</span>,   <span class="number">0.3528</span>,  <span class="number">0.405627</span>, <span class="number">0.243477</span>, <span class="number">0.329261</span>,  <span class="number">0.22143</span>, <span class="number">0.286879</span>,   <span class="number">0.3528</span>,   <span class="number">0.3528</span>,</div><div class="line">         <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,  <span class="number">0.34641</span>,        <span class="number">0</span>,         <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>, <span class="number">-0.34641</span>,        <span class="number">0</span>,</div><div class="line">         <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,  <span class="number">0.34641</span>,         <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>,        <span class="number">0</span>, <span class="number">-0.34641</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create matrix with predicted sigma points as columns</span></div><div class="line">  MatrixXd Xsig_pred = MatrixXd(n_x, <span class="number">2</span> * n_aug + <span class="number">1</span>);</div><div class="line"></div><div class="line">  <span class="keyword">double</span> <span class="keyword">delta_t</span> = <span class="number">0.1</span>; <span class="comment">//time diff in sec</span></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part begin</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//predict sigma points</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; <span class="number">2</span>*n_aug+<span class="number">1</span>; i++)</div><div class="line">  &#123;</div><div class="line">    <span class="comment">//extract values for better readability</span></div><div class="line">    <span class="keyword">double</span> p_x = Xsig_aug(<span class="number">0</span>,i);</div><div class="line">    <span class="keyword">double</span> p_y = Xsig_aug(<span class="number">1</span>,i);</div><div class="line">    <span class="keyword">double</span> v = Xsig_aug(<span class="number">2</span>,i);</div><div class="line">    <span class="keyword">double</span> yaw = Xsig_aug(<span class="number">3</span>,i);</div><div class="line">    <span class="keyword">double</span> yawd = Xsig_aug(<span class="number">4</span>,i);</div><div class="line">    <span class="keyword">double</span> nu_a = Xsig_aug(<span class="number">5</span>,i);</div><div class="line">    <span class="keyword">double</span> nu_yawdd = Xsig_aug(<span class="number">6</span>,i);</div><div class="line"></div><div class="line">    <span class="comment">//predicted state values</span></div><div class="line">    <span class="keyword">double</span> px_p, py_p;</div><div class="line"></div><div class="line">    <span class="comment">//avoid division by zero</span></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">fabs</span>(yawd) &gt; <span class="number">0.001</span>) &#123;</div><div class="line">        px_p = p_x + v/yawd * ( <span class="built_in">sin</span> (yaw + yawd*<span class="keyword">delta_t</span>) - <span class="built_in">sin</span>(yaw));</div><div class="line">        py_p = p_y + v/yawd * ( <span class="built_in">cos</span>(yaw) - <span class="built_in">cos</span>(yaw+yawd*<span class="keyword">delta_t</span>) );</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        px_p = p_x + v*<span class="keyword">delta_t</span>*<span class="built_in">cos</span>(yaw);</div><div class="line">        py_p = p_y + v*<span class="keyword">delta_t</span>*<span class="built_in">sin</span>(yaw);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">double</span> v_p = v;</div><div class="line">    <span class="keyword">double</span> yaw_p = yaw + yawd*<span class="keyword">delta_t</span>;</div><div class="line">    <span class="keyword">double</span> yawd_p = yawd;</div><div class="line"></div><div class="line">    <span class="comment">//add noise</span></div><div class="line">    px_p = px_p + <span class="number">0.5</span>*nu_a*<span class="keyword">delta_t</span>*<span class="keyword">delta_t</span> * <span class="built_in">cos</span>(yaw);</div><div class="line">    py_p = py_p + <span class="number">0.5</span>*nu_a*<span class="keyword">delta_t</span>*<span class="keyword">delta_t</span> * <span class="built_in">sin</span>(yaw);</div><div class="line">    v_p = v_p + nu_a*<span class="keyword">delta_t</span>;</div><div class="line"></div><div class="line">    yaw_p = yaw_p + <span class="number">0.5</span>*nu_yawdd*<span class="keyword">delta_t</span>*<span class="keyword">delta_t</span>;</div><div class="line">    yawd_p = yawd_p + nu_yawdd*<span class="keyword">delta_t</span>;</div><div class="line"></div><div class="line">    <span class="comment">//write predicted sigma point into right column</span></div><div class="line">    Xsig_pred(<span class="number">0</span>,i) = px_p;</div><div class="line">    Xsig_pred(<span class="number">1</span>,i) = py_p;</div><div class="line">    Xsig_pred(<span class="number">2</span>,i) = v_p;</div><div class="line">    Xsig_pred(<span class="number">3</span>,i) = yaw_p;</div><div class="line">    Xsig_pred(<span class="number">4</span>,i) = yawd_p;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part end</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//print result</span></div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Xsig_pred = "</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> &lt;&lt; Xsig_pred &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">  <span class="comment">//write result</span></div><div class="line">  *Xsig_out = Xsig_pred;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="预测均值和方差"><a href="#预测均值和方差" class="headerlink" title="预测均值和方差"></a>预测均值和方差</h2><p>在预测空间计算新sigma点的均值和方差，均值是这些点的加权平均，方差也是加权方差，系数如下：</p>
+<p><img src="/post_imgs/UKF/ukf-12.png" width="400" height="" alt="weights" align="center"></p>
+<p><strong>代码</strong>，<code>PredictMeanAndCovariance()</code> :</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> UKF::PredictMeanAndCovariance(VectorXd* x_out, MatrixXd* P_out) &#123;</div><div class="line"></div><div class="line">  <span class="comment">//set state dimension</span></div><div class="line">  <span class="keyword">int</span> n_x = <span class="number">5</span>;</div><div class="line"></div><div class="line">  <span class="comment">//set augmented dimension</span></div><div class="line">  <span class="keyword">int</span> n_aug = <span class="number">7</span>;</div><div class="line"></div><div class="line">  <span class="comment">//define spreading parameter</span></div><div class="line">  <span class="keyword">double</span> lambda = <span class="number">3</span> - n_aug;</div><div class="line"></div><div class="line">  <span class="comment">//create example matrix with predicted sigma points</span></div><div class="line">  MatrixXd Xsig_pred = MatrixXd(n_x, <span class="number">2</span> * n_aug + <span class="number">1</span>);</div><div class="line">  Xsig_pred &lt;&lt;</div><div class="line">         <span class="number">5.9374</span>,  <span class="number">6.0640</span>,   <span class="number">5.925</span>,  <span class="number">5.9436</span>,  <span class="number">5.9266</span>,  <span class="number">5.9374</span>,  <span class="number">5.9389</span>,  <span class="number">5.9374</span>,  <span class="number">5.8106</span>,  <span class="number">5.9457</span>,  <span class="number">5.9310</span>,  <span class="number">5.9465</span>,  <span class="number">5.9374</span>,  <span class="number">5.9359</span>,  <span class="number">5.93744</span>,</div><div class="line">           <span class="number">1.48</span>,  <span class="number">1.4436</span>,   <span class="number">1.660</span>,  <span class="number">1.4934</span>,  <span class="number">1.5036</span>,    <span class="number">1.48</span>,  <span class="number">1.4868</span>,    <span class="number">1.48</span>,  <span class="number">1.5271</span>,  <span class="number">1.3104</span>,  <span class="number">1.4787</span>,  <span class="number">1.4674</span>,    <span class="number">1.48</span>,  <span class="number">1.4851</span>,    <span class="number">1.486</span>,</div><div class="line">          <span class="number">2.204</span>,  <span class="number">2.2841</span>,  <span class="number">2.2455</span>,  <span class="number">2.2958</span>,   <span class="number">2.204</span>,   <span class="number">2.204</span>,  <span class="number">2.2395</span>,   <span class="number">2.204</span>,  <span class="number">2.1256</span>,  <span class="number">2.1642</span>,  <span class="number">2.1139</span>,   <span class="number">2.204</span>,   <span class="number">2.204</span>,  <span class="number">2.1702</span>,   <span class="number">2.2049</span>,</div><div class="line">         <span class="number">0.5367</span>, <span class="number">0.47338</span>, <span class="number">0.67809</span>, <span class="number">0.55455</span>, <span class="number">0.64364</span>, <span class="number">0.54337</span>,  <span class="number">0.5367</span>, <span class="number">0.53851</span>, <span class="number">0.60017</span>, <span class="number">0.39546</span>, <span class="number">0.51900</span>, <span class="number">0.42991</span>, <span class="number">0.530188</span>,  <span class="number">0.5367</span>, <span class="number">0.535048</span>,</div><div class="line">          <span class="number">0.352</span>, <span class="number">0.29997</span>, <span class="number">0.46212</span>, <span class="number">0.37633</span>,  <span class="number">0.4841</span>, <span class="number">0.41872</span>,   <span class="number">0.352</span>, <span class="number">0.38744</span>, <span class="number">0.40562</span>, <span class="number">0.24347</span>, <span class="number">0.32926</span>,  <span class="number">0.2214</span>, <span class="number">0.28687</span>,   <span class="number">0.352</span>, <span class="number">0.318159</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create vector for weights</span></div><div class="line">  VectorXd weights = VectorXd(<span class="number">2</span>*n_aug+<span class="number">1</span>);</div><div class="line">  </div><div class="line">  <span class="comment">//create vector for predicted state</span></div><div class="line">  VectorXd x = VectorXd(n_x);</div><div class="line"></div><div class="line">  <span class="comment">//create covariance matrix for prediction</span></div><div class="line">  MatrixXd P = MatrixXd(n_x, n_x);</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part begin</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">// set weights</span></div><div class="line">  <span class="keyword">double</span> weight_0 = lambda/(lambda+n_aug);</div><div class="line">  weights(<span class="number">0</span>) = weight_0;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;<span class="number">2</span>*n_aug+<span class="number">1</span>; i++) &#123;  <span class="comment">//2n+1 weights</span></div><div class="line">    <span class="keyword">double</span> weight = <span class="number">0.5</span>/(n_aug+lambda);</div><div class="line">    weights(i) = weight;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//predicted state mean</span></div><div class="line">  x.fill(<span class="number">0.0</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span> * n_aug + <span class="number">1</span>; i++) &#123;  <span class="comment">//iterate over sigma points</span></div><div class="line">    x = x+ weights(i) * Xsig_pred.col(i);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//predicted state covariance matrix</span></div><div class="line">  P.fill(<span class="number">0.0</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span> * n_aug + <span class="number">1</span>; i++) &#123;  <span class="comment">//iterate over sigma points</span></div><div class="line"></div><div class="line">    <span class="comment">// state difference</span></div><div class="line">    VectorXd x_diff = Xsig_pred.col(i) - x;</div><div class="line">    <span class="comment">//angle normalization</span></div><div class="line">    <span class="keyword">while</span> (x_diff(<span class="number">3</span>)&gt; M_PI) x_diff(<span class="number">3</span>)-=<span class="number">2.</span>*M_PI;</div><div class="line">    <span class="keyword">while</span> (x_diff(<span class="number">3</span>)&lt;-M_PI) x_diff(<span class="number">3</span>)+=<span class="number">2.</span>*M_PI;</div><div class="line"></div><div class="line">    P = P + weights(i) * x_diff * x_diff.transpose() ;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part end</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//print result</span></div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Predicted state"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Predicted covariance matrix"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; P &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">  <span class="comment">//write result</span></div><div class="line">  *x_out = x;</div><div class="line">  *P_out = P;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="更新（Update）"><a href="#更新（Update）" class="headerlink" title="更新（Update）"></a>更新（Update）</h1><h2 id="预测观测值（-Predict-Measurement）"><a href="#预测观测值（-Predict-Measurement）" class="headerlink" title="预测观测值（ Predict Measurement）"></a>预测观测值（ Predict Measurement）</h2><p>KF更新阶段需要将状态向量映射到观测空间，计算与观测量点残差进行状态更新。在UKF中，这一步的操作同样用sigma点来进行替代，将sigma点映射到观测空间的方法与预测阶段的相同，并且过程可以更简单。</p>
+<ol>
+<li>sigma点不需要重新生成，重复利用预测空间的sigma点（这些sigma点是从状态空间映射过来的）即可。</li>
+<li>因为观测噪声是直接加在观测量上的（即观测噪声本来就在观测空间，映射关系中不会用到），所以映射过程不涉及观测噪声，也就无需计算增广sigma点矩阵。</li>
+</ol>
+<p><img src="/post_imgs/UKF/ukf-12(1).png" width="400" height="" alt="measurement sigma" align="center"></p>
+<p><img src="/post_imgs/UKF/ukf-13.png" width="400" height="" alt="augmented update" align="center"></p>
+<p>假设使用Radar数据作为观测量，</p>
+<p><img src="/post_imgs/UKF/ukf-14.png" width="400" height="" alt="measurement sigma" align="center"></p>
+<p><strong>代码</strong>，<code>PredictMeanAndCovariance()</code> :</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> UKF::PredictRadarMeasurement(VectorXd* z_out, MatrixXd* S_out) &#123;</div><div class="line"></div><div class="line">  <span class="comment">//set state dimension</span></div><div class="line">  <span class="keyword">int</span> n_x = <span class="number">5</span>;</div><div class="line"></div><div class="line">  <span class="comment">//set augmented dimension</span></div><div class="line">  <span class="keyword">int</span> n_aug = <span class="number">7</span>;</div><div class="line"></div><div class="line">  <span class="comment">//set measurement dimension, radar can measure r, phi, and r_dot</span></div><div class="line">  <span class="keyword">int</span> n_z = <span class="number">3</span>;</div><div class="line"></div><div class="line">  <span class="comment">//define spreading parameter</span></div><div class="line">  <span class="keyword">double</span> lambda = <span class="number">3</span> - n_aug;</div><div class="line"></div><div class="line">  <span class="comment">//set vector for weights</span></div><div class="line">  VectorXd weights = VectorXd(<span class="number">2</span>*n_aug+<span class="number">1</span>);</div><div class="line">   <span class="keyword">double</span> weight_0 = lambda/(lambda+n_aug);</div><div class="line">  weights(<span class="number">0</span>) = weight_0;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;<span class="number">2</span>*n_aug+<span class="number">1</span>; i++) &#123;  </div><div class="line">    <span class="keyword">double</span> weight = <span class="number">0.5</span>/(n_aug+lambda);</div><div class="line">    weights(i) = weight;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//radar measurement noise standard deviation radius in m</span></div><div class="line">  <span class="keyword">double</span> std_radr = <span class="number">0.3</span>;</div><div class="line"></div><div class="line">  <span class="comment">//radar measurement noise standard deviation angle in rad</span></div><div class="line">  <span class="keyword">double</span> std_radphi = <span class="number">0.0175</span>;</div><div class="line"></div><div class="line">  <span class="comment">//radar measurement noise standard deviation radius change in m/s</span></div><div class="line">  <span class="keyword">double</span> std_radrd = <span class="number">0.1</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example matrix with predicted sigma points</span></div><div class="line">  MatrixXd Xsig_pred = MatrixXd(n_x, <span class="number">2</span> * n_aug + <span class="number">1</span>);</div><div class="line">  Xsig_pred &lt;&lt;</div><div class="line">         <span class="number">5.9374</span>,  <span class="number">6.0640</span>,   <span class="number">5.925</span>,  <span class="number">5.9436</span>,  <span class="number">5.9266</span>,  <span class="number">5.9374</span>,  <span class="number">5.9389</span>,  <span class="number">5.9374</span>,  <span class="number">5.8106</span>,  <span class="number">5.9457</span>,  <span class="number">5.9310</span>,  <span class="number">5.9465</span>,  <span class="number">5.9374</span>,  <span class="number">5.9359</span>,  <span class="number">5.93744</span>,</div><div class="line">           <span class="number">1.48</span>,  <span class="number">1.4436</span>,   <span class="number">1.660</span>,  <span class="number">1.4934</span>,  <span class="number">1.5036</span>,    <span class="number">1.48</span>,  <span class="number">1.4868</span>,    <span class="number">1.48</span>,  <span class="number">1.5271</span>,  <span class="number">1.3104</span>,  <span class="number">1.4787</span>,  <span class="number">1.4674</span>,    <span class="number">1.48</span>,  <span class="number">1.4851</span>,    <span class="number">1.486</span>,</div><div class="line">          <span class="number">2.204</span>,  <span class="number">2.2841</span>,  <span class="number">2.2455</span>,  <span class="number">2.2958</span>,   <span class="number">2.204</span>,   <span class="number">2.204</span>,  <span class="number">2.2395</span>,   <span class="number">2.204</span>,  <span class="number">2.1256</span>,  <span class="number">2.1642</span>,  <span class="number">2.1139</span>,   <span class="number">2.204</span>,   <span class="number">2.204</span>,  <span class="number">2.1702</span>,   <span class="number">2.2049</span>,</div><div class="line">         <span class="number">0.5367</span>, <span class="number">0.47338</span>, <span class="number">0.67809</span>, <span class="number">0.55455</span>, <span class="number">0.64364</span>, <span class="number">0.54337</span>,  <span class="number">0.5367</span>, <span class="number">0.53851</span>, <span class="number">0.60017</span>, <span class="number">0.39546</span>, <span class="number">0.51900</span>, <span class="number">0.42991</span>, <span class="number">0.530188</span>,  <span class="number">0.5367</span>, <span class="number">0.535048</span>,</div><div class="line">          <span class="number">0.352</span>, <span class="number">0.29997</span>, <span class="number">0.46212</span>, <span class="number">0.37633</span>,  <span class="number">0.4841</span>, <span class="number">0.41872</span>,   <span class="number">0.352</span>, <span class="number">0.38744</span>, <span class="number">0.40562</span>, <span class="number">0.24347</span>, <span class="number">0.32926</span>,  <span class="number">0.2214</span>, <span class="number">0.28687</span>,   <span class="number">0.352</span>, <span class="number">0.318159</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create matrix for sigma points in measurement space</span></div><div class="line">  MatrixXd Zsig = MatrixXd(n_z, <span class="number">2</span> * n_aug + <span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part begin</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//transform sigma points into measurement space</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span> * n_aug + <span class="number">1</span>; i++) &#123;  <span class="comment">//2n+1 simga points</span></div><div class="line"></div><div class="line">    <span class="comment">// extract values for better readibility</span></div><div class="line">    <span class="keyword">double</span> p_x = Xsig_pred(<span class="number">0</span>,i);</div><div class="line">    <span class="keyword">double</span> p_y = Xsig_pred(<span class="number">1</span>,i);</div><div class="line">    <span class="keyword">double</span> v  = Xsig_pred(<span class="number">2</span>,i);</div><div class="line">    <span class="keyword">double</span> yaw = Xsig_pred(<span class="number">3</span>,i);</div><div class="line"></div><div class="line">    <span class="keyword">double</span> v1 = <span class="built_in">cos</span>(yaw)*v;</div><div class="line">    <span class="keyword">double</span> v2 = <span class="built_in">sin</span>(yaw)*v;</div><div class="line"></div><div class="line">    <span class="comment">// measurement model</span></div><div class="line">    Zsig(<span class="number">0</span>,i) = <span class="built_in">sqrt</span>(p_x*p_x + p_y*p_y);                        <span class="comment">//r</span></div><div class="line">    Zsig(<span class="number">1</span>,i) = <span class="built_in">atan2</span>(p_y,p_x);                                 <span class="comment">//phi</span></div><div class="line">    Zsig(<span class="number">2</span>,i) = (p_x*v1 + p_y*v2 ) / <span class="built_in">sqrt</span>(p_x*p_x + p_y*p_y);   <span class="comment">//r_dot</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//mean predicted measurement</span></div><div class="line">  VectorXd z_pred = VectorXd(n_z);</div><div class="line">  z_pred.fill(<span class="number">0.0</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; <span class="number">2</span>*n_aug+<span class="number">1</span>; i++) &#123;</div><div class="line">      z_pred = z_pred + weights(i) * Zsig.col(i);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//measurement covariance matrix S</span></div><div class="line">  MatrixXd S = MatrixXd(n_z,n_z);</div><div class="line">  S.fill(<span class="number">0.0</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span> * n_aug + <span class="number">1</span>; i++) &#123;  <span class="comment">//2n+1 simga points</span></div><div class="line">    <span class="comment">//residual</span></div><div class="line">    VectorXd z_diff = Zsig.col(i) - z_pred;</div><div class="line"></div><div class="line">    <span class="comment">//angle normalization</span></div><div class="line">    <span class="keyword">while</span> (z_diff(<span class="number">1</span>)&gt; M_PI) z_diff(<span class="number">1</span>)-=<span class="number">2.</span>*M_PI;</div><div class="line">    <span class="keyword">while</span> (z_diff(<span class="number">1</span>)&lt;-M_PI) z_diff(<span class="number">1</span>)+=<span class="number">2.</span>*M_PI;</div><div class="line"></div><div class="line">    S = S + weights(i) * z_diff * z_diff.transpose();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//add measurement noise covariance matrix</span></div><div class="line">  MatrixXd R = MatrixXd(n_z,n_z);</div><div class="line">  R &lt;&lt;    std_radr*std_radr, <span class="number">0</span>, <span class="number">0</span>,</div><div class="line">          <span class="number">0</span>, std_radphi*std_radphi, <span class="number">0</span>,</div><div class="line">          <span class="number">0</span>, <span class="number">0</span>,std_radrd*std_radrd;</div><div class="line">  S = S + R;</div><div class="line"></div><div class="line">  </div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part end</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//print result</span></div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"z_pred: "</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> &lt;&lt; z_pred &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"S: "</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> &lt;&lt; S &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">  <span class="comment">//write result</span></div><div class="line">  *z_out = z_pred;</div><div class="line">  *S_out = S;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="状态更新（State-Update）"><a href="#状态更新（State-Update）" class="headerlink" title="状态更新（State Update）"></a>状态更新（State Update）</h2><p>现在我们需要利用观测值进行状态更新了（是的，之前的步骤中都没有涉及到观测值）。</p>
+<p><img src="/post_imgs/UKF/ukf-15.png" width="400" height="" alt="state update" align="center"></p>
+<p><img src="/post_imgs/UKF/ukf-16.png" width="400" height="" alt="state update" align="center"></p>
+<p><strong>code</strong>，<code>UpdateState()</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> UKF::UpdateState(VectorXd* x_out, MatrixXd* P_out) &#123;</div><div class="line"></div><div class="line">  <span class="comment">//set state dimension</span></div><div class="line">  <span class="keyword">int</span> n_x = <span class="number">5</span>;</div><div class="line"></div><div class="line">  <span class="comment">//set augmented dimension</span></div><div class="line">  <span class="keyword">int</span> n_aug = <span class="number">7</span>;</div><div class="line"></div><div class="line">  <span class="comment">//set measurement dimension, radar can measure r, phi, and r_dot</span></div><div class="line">  <span class="keyword">int</span> n_z = <span class="number">3</span>;</div><div class="line"></div><div class="line">  <span class="comment">//define spreading parameter</span></div><div class="line">  <span class="keyword">double</span> lambda = <span class="number">3</span> - n_aug;</div><div class="line"></div><div class="line">  <span class="comment">//set vector for weights</span></div><div class="line">  VectorXd weights = VectorXd(<span class="number">2</span>*n_aug+<span class="number">1</span>);</div><div class="line">   <span class="keyword">double</span> weight_0 = lambda/(lambda+n_aug);</div><div class="line">  weights(<span class="number">0</span>) = weight_0;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;<span class="number">2</span>*n_aug+<span class="number">1</span>; i++) &#123;  <span class="comment">//2n+1 weights</span></div><div class="line">    <span class="keyword">double</span> weight = <span class="number">0.5</span>/(n_aug+lambda);</div><div class="line">    weights(i) = weight;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//create example matrix with predicted sigma points</span></div><div class="line">  MatrixXd Xsig_pred = MatrixXd(n_x, <span class="number">2</span> * n_aug + <span class="number">1</span>);</div><div class="line">  Xsig_pred &lt;&lt;</div><div class="line">         <span class="number">5.9374</span>,  <span class="number">6.0640</span>,   <span class="number">5.925</span>,  <span class="number">5.9436</span>,  <span class="number">5.9266</span>,  <span class="number">5.9374</span>,  <span class="number">5.9389</span>,  <span class="number">5.9374</span>,  <span class="number">5.8106</span>,  <span class="number">5.9457</span>,  <span class="number">5.9310</span>,  <span class="number">5.9465</span>,  <span class="number">5.9374</span>,  <span class="number">5.9359</span>,  <span class="number">5.93744</span>,</div><div class="line">           <span class="number">1.48</span>,  <span class="number">1.4436</span>,   <span class="number">1.660</span>,  <span class="number">1.4934</span>,  <span class="number">1.5036</span>,    <span class="number">1.48</span>,  <span class="number">1.4868</span>,    <span class="number">1.48</span>,  <span class="number">1.5271</span>,  <span class="number">1.3104</span>,  <span class="number">1.4787</span>,  <span class="number">1.4674</span>,    <span class="number">1.48</span>,  <span class="number">1.4851</span>,    <span class="number">1.486</span>,</div><div class="line">          <span class="number">2.204</span>,  <span class="number">2.2841</span>,  <span class="number">2.2455</span>,  <span class="number">2.2958</span>,   <span class="number">2.204</span>,   <span class="number">2.204</span>,  <span class="number">2.2395</span>,   <span class="number">2.204</span>,  <span class="number">2.1256</span>,  <span class="number">2.1642</span>,  <span class="number">2.1139</span>,   <span class="number">2.204</span>,   <span class="number">2.204</span>,  <span class="number">2.1702</span>,   <span class="number">2.2049</span>,</div><div class="line">         <span class="number">0.5367</span>, <span class="number">0.47338</span>, <span class="number">0.67809</span>, <span class="number">0.55455</span>, <span class="number">0.64364</span>, <span class="number">0.54337</span>,  <span class="number">0.5367</span>, <span class="number">0.53851</span>, <span class="number">0.60017</span>, <span class="number">0.39546</span>, <span class="number">0.51900</span>, <span class="number">0.42991</span>, <span class="number">0.530188</span>,  <span class="number">0.5367</span>, <span class="number">0.535048</span>,</div><div class="line">          <span class="number">0.352</span>, <span class="number">0.29997</span>, <span class="number">0.46212</span>, <span class="number">0.37633</span>,  <span class="number">0.4841</span>, <span class="number">0.41872</span>,   <span class="number">0.352</span>, <span class="number">0.38744</span>, <span class="number">0.40562</span>, <span class="number">0.24347</span>, <span class="number">0.32926</span>,  <span class="number">0.2214</span>, <span class="number">0.28687</span>,   <span class="number">0.352</span>, <span class="number">0.318159</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example vector for predicted state mean</span></div><div class="line">  VectorXd x = VectorXd(n_x);</div><div class="line">  x &lt;&lt;</div><div class="line">     <span class="number">5.93637</span>,</div><div class="line">     <span class="number">1.49035</span>,</div><div class="line">     <span class="number">2.20528</span>,</div><div class="line">    <span class="number">0.536853</span>,</div><div class="line">    <span class="number">0.353577</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example matrix for predicted state covariance</span></div><div class="line">  MatrixXd P = MatrixXd(n_x,n_x);</div><div class="line">  P &lt;&lt;</div><div class="line">  <span class="number">0.0054342</span>,  <span class="number">-0.002405</span>,  <span class="number">0.0034157</span>, <span class="number">-0.0034819</span>, <span class="number">-0.00299378</span>,</div><div class="line">  <span class="number">-0.002405</span>,    <span class="number">0.01084</span>,   <span class="number">0.001492</span>,  <span class="number">0.0098018</span>,  <span class="number">0.00791091</span>,</div><div class="line">  <span class="number">0.0034157</span>,   <span class="number">0.001492</span>,  <span class="number">0.0058012</span>, <span class="number">0.00077863</span>, <span class="number">0.000792973</span>,</div><div class="line"> <span class="number">-0.0034819</span>,  <span class="number">0.0098018</span>, <span class="number">0.00077863</span>,   <span class="number">0.011923</span>,   <span class="number">0.0112491</span>,</div><div class="line"> <span class="number">-0.0029937</span>,  <span class="number">0.0079109</span>, <span class="number">0.00079297</span>,   <span class="number">0.011249</span>,   <span class="number">0.0126972</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example matrix with sigma points in measurement space</span></div><div class="line">  MatrixXd Zsig = MatrixXd(n_z, <span class="number">2</span> * n_aug + <span class="number">1</span>);</div><div class="line">  Zsig &lt;&lt;</div><div class="line">      <span class="number">6.1190</span>,  <span class="number">6.2334</span>,  <span class="number">6.1531</span>,  <span class="number">6.1283</span>,  <span class="number">6.1143</span>,  <span class="number">6.1190</span>,  <span class="number">6.1221</span>,  <span class="number">6.1190</span>,  <span class="number">6.0079</span>,  <span class="number">6.0883</span>,  <span class="number">6.1125</span>,  <span class="number">6.1248</span>,  <span class="number">6.1190</span>,  <span class="number">6.1188</span>,  <span class="number">6.12057</span>,</div><div class="line">     <span class="number">0.24428</span>,  <span class="number">0.2337</span>, <span class="number">0.27316</span>, <span class="number">0.24616</span>, <span class="number">0.24846</span>, <span class="number">0.24428</span>, <span class="number">0.24530</span>, <span class="number">0.24428</span>, <span class="number">0.25700</span>, <span class="number">0.21692</span>, <span class="number">0.24433</span>, <span class="number">0.24193</span>, <span class="number">0.24428</span>, <span class="number">0.24515</span>, <span class="number">0.245239</span>,</div><div class="line">      <span class="number">2.1104</span>,  <span class="number">2.2188</span>,  <span class="number">2.0639</span>,   <span class="number">2.187</span>,  <span class="number">2.0341</span>,  <span class="number">2.1061</span>,  <span class="number">2.1450</span>,  <span class="number">2.1092</span>,  <span class="number">2.0016</span>,   <span class="number">2.129</span>,  <span class="number">2.0346</span>,  <span class="number">2.1651</span>,  <span class="number">2.1145</span>,  <span class="number">2.0786</span>,  <span class="number">2.11295</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example vector for mean predicted measurement</span></div><div class="line">  VectorXd z_pred = VectorXd(n_z);</div><div class="line">  z_pred &lt;&lt;</div><div class="line">      <span class="number">6.12155</span>,</div><div class="line">     <span class="number">0.245993</span>,</div><div class="line">      <span class="number">2.10313</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example matrix for predicted measurement covariance</span></div><div class="line">  MatrixXd S = MatrixXd(n_z,n_z);</div><div class="line">  S &lt;&lt;</div><div class="line">      <span class="number">0.0946171</span>, <span class="number">-0.000139448</span>,   <span class="number">0.00407016</span>,</div><div class="line">   <span class="number">-0.000139448</span>,  <span class="number">0.000617548</span>, <span class="number">-0.000770652</span>,</div><div class="line">     <span class="number">0.00407016</span>, <span class="number">-0.000770652</span>,    <span class="number">0.0180917</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create example vector for incoming radar measurement</span></div><div class="line">  VectorXd z = VectorXd(n_z);</div><div class="line">  z &lt;&lt;</div><div class="line">      <span class="number">5.9214</span>,</div><div class="line">      <span class="number">0.2187</span>,</div><div class="line">      <span class="number">2.0062</span>;</div><div class="line"></div><div class="line">  <span class="comment">//create matrix for cross correlation Tc</span></div><div class="line">  MatrixXd Tc = MatrixXd(n_x, n_z);</div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part begin</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//calculate cross correlation matrix</span></div><div class="line">  Tc.fill(<span class="number">0.0</span>);</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span> * n_aug + <span class="number">1</span>; i++) &#123;  <span class="comment">//2n+1 simga points</span></div><div class="line"></div><div class="line">    <span class="comment">//residual</span></div><div class="line">    VectorXd z_diff = Zsig.col(i) - z_pred;</div><div class="line">    <span class="comment">//angle normalization</span></div><div class="line">    <span class="keyword">while</span> (z_diff(<span class="number">1</span>)&gt; M_PI) z_diff(<span class="number">1</span>)-=<span class="number">2.</span>*M_PI;</div><div class="line">    <span class="keyword">while</span> (z_diff(<span class="number">1</span>)&lt;-M_PI) z_diff(<span class="number">1</span>)+=<span class="number">2.</span>*M_PI;</div><div class="line"></div><div class="line">    <span class="comment">// state difference</span></div><div class="line">    VectorXd x_diff = Xsig_pred.col(i) - x;</div><div class="line">    <span class="comment">//angle normalization</span></div><div class="line">    <span class="keyword">while</span> (x_diff(<span class="number">3</span>)&gt; M_PI) x_diff(<span class="number">3</span>)-=<span class="number">2.</span>*M_PI;</div><div class="line">    <span class="keyword">while</span> (x_diff(<span class="number">3</span>)&lt;-M_PI) x_diff(<span class="number">3</span>)+=<span class="number">2.</span>*M_PI;</div><div class="line"></div><div class="line">    Tc = Tc + weights(i) * x_diff * z_diff.transpose();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//Kalman gain K;</span></div><div class="line">  MatrixXd K = Tc * S.inverse();</div><div class="line"></div><div class="line">  <span class="comment">//residual</span></div><div class="line">  VectorXd z_diff = z - z_pred;</div><div class="line"></div><div class="line">  <span class="comment">//angle normalization</span></div><div class="line">  <span class="keyword">while</span> (z_diff(<span class="number">1</span>)&gt; M_PI) z_diff(<span class="number">1</span>)-=<span class="number">2.</span>*M_PI;</div><div class="line">  <span class="keyword">while</span> (z_diff(<span class="number">1</span>)&lt;-M_PI) z_diff(<span class="number">1</span>)+=<span class="number">2.</span>*M_PI;</div><div class="line"></div><div class="line">  <span class="comment">//update state mean and covariance matrix</span></div><div class="line">  x = x + K * z_diff;</div><div class="line">  P = P - K*S*K.transpose();</div><div class="line"></div><div class="line"><span class="comment">/*******************************************************************************</span></div><div class="line"> * Student part end</div><div class="line"> ******************************************************************************/</div><div class="line"></div><div class="line">  <span class="comment">//print result</span></div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Updated state x: "</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> &lt;&lt; x &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Updated state covariance P: "</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> &lt;&lt; P &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">  <span class="comment">//write result</span></div><div class="line">  *x_out = x;</div><div class="line">  *P_out = P;</div><div class="line"></div><div class="line">  <span class="comment">/* expected result x:</span></div><div class="line">     x =</div><div class="line"> 5.92276</div><div class="line"> 1.41823</div><div class="line"> 2.15593</div><div class="line">0.489274</div><div class="line">0.321338</div><div class="line">    */</div><div class="line"></div><div class="line">  <span class="comment">/* expected result P:</span></div><div class="line">     P =</div><div class="line">  0.00361579 -0.000357881   0.00208316 -0.000937196  -0.00071727</div><div class="line">-0.000357881   0.00539867   0.00156846   0.00455342   0.00358885</div><div class="line">  0.00208316   0.00156846   0.00410651   0.00160333   0.00171811</div><div class="line">-0.000937196   0.00455342   0.00160333   0.00652634   0.00669436</div><div class="line"> -0.00071719   0.00358884   0.00171811   0.00669426   0.00881797</div><div class="line">    */</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="参数与一致性（Parameter-and-Consistency）"><a href="#参数与一致性（Parameter-and-Consistency）" class="headerlink" title="参数与一致性（Parameter and Consistency）"></a>参数与一致性（Parameter and Consistency）</h1><p>不管是KF，EKF还是UKF我们都需要设定噪声参数，噪声都认为是标准高斯分布的，所以只需要设定噪声的标准差即可。</p>
+<p><img src="/post_imgs/UKF/ukf-17.png" width="400" height="" alt="noise" align="center"></p>
+<h2 id="测量噪声（Measurement-Noise）"><a href="#测量噪声（Measurement-Noise）" class="headerlink" title="测量噪声（Measurement Noise）"></a>测量噪声（Measurement Noise）</h2><p>测量噪声一般需要查看传感器说明书，一般会有提供。若没有，可以通过静态试验的方法得到统计量，然后根据自己的实际需要测试，微调测量噪声。</p>
+<h2 id="过程噪声（Process-Noise）"><a href="#过程噪声（Process-Noise）" class="headerlink" title="过程噪声（Process Noise）"></a>过程噪声（Process Noise）</h2><p>过程噪声只能根据物理意义来进行估计了。高斯分布95%的点落在$2\sigma$内，标准差量纲和噪声一致，所以这对估计很有用。</p>
+<p>比如纵向加速度噪声$\nu_a$，一般汽车的加速度都在$6m/s^2$以内，所以取$\sigma_a = 6/2 = 3$，就比较合理了；如果追踪目标是自行车或是行人，那么$\sigma$值又要相应降低。</p>
+<p>再比如角加速度$\nu_{\ddot {\psi}}$，用高中物理知识我们知道圆周运动角加速度和切向加速度关系是$a_r = \frac{a_t}{R}$，跟转弯半径关系很大。假设线加速度最大只能$6m/s^2$，转弯半径在10m左右，那么角加速度也只能是$0.6 s^{-2}$，那么加速度噪声</p>
+<p>$$<br>\sigma_{\ddot {\psi}} = 0.6/2 =0.3<br>$$</p>
+<p>是较为合理的。</p>
+<h2 id="一致性评估（Consistency）"><a href="#一致性评估（Consistency）" class="headerlink" title="一致性评估（Consistency）"></a>一致性评估（Consistency）</h2><p>噪声的参数选择是否合适，可以用正则化的平方新息NIS（Normalized Innovation Squared）进行评估。</p>
+<p><img src="/post_imgs/UKF/ukf-18.png" width="400" height="" alt="NIS" align="center"></p>
+<p>NIS满足卡方分布，下面三种情况分别是 满足一致性要求，低估不确定性（underestimate uncertainty），高估不确定性（overestimate uncertainty）</p>
+<p><img src="/post_imgs/UKF/ukf-19.png" width="400" height="" alt="consistent" align="center"></p>
+<p><img src="/post_imgs/UKF/ukf-20.png" width="400" height="" alt="underestimate" align="center"></p>
+<p><img src="/post_imgs/UKF/ukf-21.png" width="400" height="" alt="overestimate" align="center"></p>
+
+                
+
+
+<p class="pink-link-context">
+    <a href="/2017/05/03/机器学习-回归/" rel="next" title="机器学习-回归">
+    Next: 机器学习-回归
+  </a>
+</p>
+
+
+            </div>
+			
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div id="disqus_thread"></div>
+        <script>
+            var disqus_config = function() {
+                this.page.url = 'http://yoursite.com/2017/05/09/UKF/';
+                this.page.identifier = '2017/05/09/UKF/';
+            };
+            (function() {
+                var d = document,
+                    s = d.createElement('script');
+                s.src = '//stars.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', + new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the
+            <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+        </noscript>
+    </section>
+
+
+
+</div>
+
+        <div class="fixed-action-btn float-sitemap">
+    <a class="btn-floating btn-large pink">
+      <i class="fa fa-caret-square-o-up"></i>
+    </a>
+    <ul>
+      <li><a class="btn-return-top btn-floating waves-effect green" title="Return to top"><i class="fa fa-arrow-circle-o-up"></i></a></li>
+      <li><a class="btn-floating waves-effect button-collapse yellow darken-1"  data-activates="main-menu" title="menu"><i class="fa fa-navicon"></i></a></li>
+    </ul>
+  </div>
+
+    </main>
+    <footer class="page-footer indigo darken-1">
+    
+    <div class="container">
+        <div class="row">
+            
+            <div class="social-group col m4 s12">
+                <h5 class="white-text">Social</h5>
+                
+                    <a class="social-link" href="https://www.linkedin.com/in/%E5%BB%BA%E4%BA%91-%E5%BE%90-a3bab3140" target="_blank">
+                        <i class="fa fa-2x fa-linkedin"></i>
+                    </a>
+                
+                    <a class="social-link" href="https://github.com/StarsMyDestination" target="_blank">
+                        <i class="fa fa-2x fa-github"></i>
+                    </a>
+                
+                    <a class="social-link" href="/atom.xml" target="_blank">
+                        <i class="fa fa-2x fa-rss"></i>
+                    </a>
+                
+                <div class="site-visitors-container white-text">
+                    <span>
+                        <i class="fa fa-user"></i>
+                        <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+                    </span>
+                    <span>&nbsp;|&nbsp;</span>
+                    <span>
+                        <i class="fa fa-eye"></i>
+                        <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+                    </span>
+                </div>
+            </div>
+            
+
+            
+            <div class="col m8 s12">
+                <h5 class="white-text">Links</h5>
+                
+                    <a class="social-link" href="https://wenglihong.github.io/" target="_blank">wenglihong</a>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+
+    <div class="footer-copyright pink-link-context">
+        <div class="container">
+            © 2017 StarsMyDestination, All rights reserved.
+            <p class="right" style="margin-top: 0;">Blog powered by <a href="https://hexo.io">Hexo</a> | Theme <a href="https://github.com/raytaylorlin/hexo-theme-raytaylorism">raytaylorism</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <noscript>
+    <div class="noscript">
+        <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+    </div>
+</noscript>
+<div class="noscript">
+    <p class="center-align">当前网速较慢或者你使用的浏览器不支持博客特定功能，请尝试刷新或换用Chrome、Firefox等现代浏览器</p>
+</div>
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<script>
+    (function($) {
+        $(document).ready(function() {
+            // 隐藏禁用javascript（针对微信内置浏览器）的提示
+            $('.noscript').hide();
+
+            // 图片缩放效果
+            var $imgs = $('img').not('.slider-image').not('.avatar-image').not('.carousel-image').not('.card-cover-image').not('.qrcode');
+
+            // 给图片加上点击放大效果（materialbox插件）
+            $imgs.addClass('materialboxed').each(function(i, el) {
+                $(this).attr('data-caption', $(this).attr('alt') || ' ');
+            }).materialbox();
+
+            // 优化表格的显示
+            $('table').each(function() {
+                var $table = $(this);
+                // 除去多行代码的情况
+                if ($table.find('pre').length == 0) {
+                    $table.addClass('responsive-table striped bordered');
+                }
+            });
+
+            // 首页幻灯片
+            $('.slider').slider({indicators: true, full_width: true, interval: 8000});
+
+            $(".button-collapse").sideNav();
+            $(".category-menu").sideNav();
+
+            // 针对gallery post
+            $('.carousel').carousel({full_width: true});
+            $('.carousel-control.prev').click(function() {
+                $('.carousel').carousel('prev');
+            });
+            $('.carousel-control.next').click(function() {
+                $('.carousel').carousel('next');
+            });
+
+            // 文章目录
+            $('article').not('.simple-article').find('h1').add('h2').add('h3').add('h4').add('h5').add('h6').scrollSpy();
+
+            // 目录随屏幕滚动（防止目录过长越过footer）
+            var $toc = $('.toc');
+            var scrollTargetTop = 0;
+            $(window).scroll(function() {
+                var $activeLink = $toc.find('a.active.section');
+                if ($(window).scrollTop() < 100) {
+                    scrollTargetTop = 0;
+                } else {
+                    if ($activeLink[0]) {
+                        scrollTargetTop = $activeLink.offset().top - $toc.offset().top;
+                    }
+                }
+                $toc.css('top', '-' + scrollTargetTop + 'px');
+            });
+
+            // 修正文章目录的left-border颜色
+            var color = $('.table-of-contents-text').css('color');
+            $('.table-of-contents-link').css('border-left-color', color);
+
+            // 针对移动端做的优化：FAB按钮点击一下收回
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                $('.fixed-action-btn').addClass('click-to-toggle');
+            }
+            // 回到顶部
+            $('.btn-return-top').click(function() {
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 500);
+            });
+
+            // 重置读书页面的Tab标签页的颜色
+            $('li.tab a').hover(function() {
+                $(this).toggleClass('text-lighten-4');
+            });
+            $('.indicator').addClass('pink lighten-2');
+
+            
+            // 添加new标签
+            $('.menu-reading, .menu-about').append('<span class="new badge pink"></span>');
+            
+
+            // 搜索功能
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
+            var searchXml = "search.xml";
+            if (searchXml.length == 0) {
+             	searchXml = "search.xml";
+            }
+            var searchPath = "/" + searchXml;
+            initSearch(searchPath, 'search-input', 'search-result');
+        });
+
+        // 初始化搜索与匹配函数
+        var initSearch = function(path, search_id, content_id) {
+            'use strict';
+            $.ajax({
+                url: path,
+                dataType: "xml",
+                success: function(xmlResponse) {
+                    // get the contents from search data
+                    var datas = $("entry", xmlResponse).map(function() {
+                        return {
+                            title: $("title", this).text(),
+                            content: $("content", this).text(),
+                            url: $("url", this).text()
+                        };
+                    }).get();
+                    var $input = document.getElementById(search_id);
+                    var $resultContent = document.getElementById(content_id);
+                    $input.addEventListener('input', function() {
+                        var str = '<ul class=\"search-result-list\">';
+                        var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                        $resultContent.innerHTML = "";
+                        if (this.value.trim().length <= 0) {
+                            return;
+                        }
+                        // perform local searching
+                        datas.forEach(function(data) {
+                            var isMatch = true;
+                            var content_index = [];
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty titles and contents
+                            if (data_title != '' && data_content != '') {
+                                keywords.forEach(function(keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            }
+                            // show search results
+                            if (isMatch) {
+                                keywords.forEach(function(keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    data_title = data_title.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                });
+
+                                str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 100 characters
+                                    var start = first_occur - 20;
+                                    var end = first_occur + 80;
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+                                    if (start == 0) {
+                                        end = 100;
+                                    }
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+                                    var match_content = content.substring(start, end);
+                                    // highlight all keywords
+                                    keywords.forEach(function(keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, "<span class=\"search-keyword pink lighten-2\">" + keyword + "</span>");
+                                    });
+
+                                    str += "<p class=\"search-result\">..." + match_content + "...</p>"
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        $resultContent.innerHTML = str;
+                    });
+                }
+            });
+        }
+    })(jQuery);
+</script>
+
+
+<script src="/js/prettify.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("pre").addClass("prettyprint");
+        prettyPrint();
+    });
+</script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+
+</body>
+</html>
